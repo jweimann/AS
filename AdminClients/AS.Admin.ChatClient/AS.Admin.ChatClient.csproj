@@ -71,13 +71,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ClientLobby.cs" />
-    <Compile Include="ClientRoom.cs" />
+    <Compile Include="Authentication\AuthenticationActor.cs" />
+    <Compile Include="Authentication\AuthenticationController.cs" />
+    <Compile Include="ClientControllerBase.cs" />
+    <Compile Include="ClientUIActorBase.cs" />
+    <Compile Include="Lobby\ClientLobby.cs" />
+    <Compile Include="Rooms\ClientRoom.cs" />
     <Compile Include="ClientUserConnection.cs" />
-    <Compile Include="RoomController.cs" />
-    <Compile Include="LobbyController.cs" />
-    <Compile Include="LobbyViewModel.cs" />
-    <Compile Include="RoomViewModel.cs" />
+    <Compile Include="Rooms\RoomController.cs" />
+    <Compile Include="Lobby\LobbyController.cs" />
+    <Compile Include="Lobby\LobbyViewModel.cs" />
+    <Compile Include="Rooms\RoomViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

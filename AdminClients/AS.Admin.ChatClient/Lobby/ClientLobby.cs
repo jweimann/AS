@@ -10,15 +10,15 @@ namespace AS.Admin.ChatClient
 {
     public class ClientLobby : ReceiveActor
     {
-        private Action<RoomList> OnUserListReceived { get; set; }
-        public ClientLobby (Action<RoomList> onUserListReceived)
+        private Action<RoomList> OnRoomListReceived { get; set; }
+        public ClientLobby(Action<RoomList> onUserListReceived)
         {
-            this.OnUserListReceived = onUserListReceived;
+            this.OnRoomListReceived = onUserListReceived;
 
             Receive<RoomList>(msg =>
                 {
-                    if (this.OnUserListReceived != null)
-                        this.OnUserListReceived(msg);
+                    if (this.OnRoomListReceived != null)
+                        this.OnRoomListReceived(msg);
                 });
         }
     }

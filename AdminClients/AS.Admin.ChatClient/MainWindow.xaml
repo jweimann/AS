@@ -4,18 +4,23 @@
         Title="MainWindow" Height="350" Width="776" Loaded="Window_Loaded">
 
     <StackPanel Orientation="Vertical">
-        <Button Content="Join" Click="Button_Click" Width="200" HorizontalAlignment="Left"/>
-        
+       
         <DockPanel
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch">
-            <ListBox x:Name="lobbyList"  
-                DockPanel.Dock="Left"
-                ItemsSource="{Binding Rooms, Mode=OneWay}"
-                Height="300"
-                Width="200"
-                Background="Silver"
-                HorizontalContentAlignment="Right"/>
+            <StackPanel x:Name="LobbyPanel" DockPanel.Dock="Left">
+                <Button Content="Join" Click="Button_Click" Width="200" HorizontalAlignment="Left"/>
+                <Button Content="Refresh" Command="{Binding RefreshRoomsCommand}" Width="200" HorizontalAlignment="Left"/>
+        
+                <ListBox  
+                    DockPanel.Dock="Left"
+                    ItemsSource="{Binding RoomNames, Mode=OneWay}"
+                    Height="300"
+                    Width="200"
+                    Background="Silver"
+                    HorizontalContentAlignment="Right"/>
+            </StackPanel>
+            
             <Grid
                 DockPanel.Dock="Left"
                 Width="300"
@@ -27,7 +32,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="{Binding ChatText}"
                            HorizontalAlignment="Left"/>
-                <TextBox Grid.Row="1" Text="Chat..." KeyDown="TextBox_KeyDown" TextChanged="TextBox_TextChanged" />
+                <TextBox Grid.Row="1" Text="Chat..." KeyDown="TextBox_KeyDown" />
             </Grid>
             <ListBox  
                 DockPanel.Dock="Right"

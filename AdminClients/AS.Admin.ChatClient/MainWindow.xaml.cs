@@ -3,18 +3,10 @@ using Akka.Configuration;
 using AS.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using AS.Admin.ChatClient.Authentication;
 
 namespace AS.Admin.ChatClient
 {
@@ -25,7 +17,10 @@ namespace AS.Admin.ChatClient
     {
         public RoomViewModel _vm { get; set; }
         private ActorSystem Sys;
-        private ActorSelection _connectionManager;
+
+        private RoomController _roomController;
+        private LobbyController _lobbyController;
+        private IActorRef _clientUserConnection;
 
         public MainWindow()
         {
@@ -37,21 +32,23 @@ namespace AS.Admin.ChatClient
         public List<string> Users { get; set; }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Users = new List<string>() { "one", "two" };
-            //this.DataContext = this;
-            var vm = new RoomViewModel();
-            _roomController = new RoomController(this.Sys, ref vm);
+            var authController = new AuthenticationController(Sys);
+            return;
+            InitializeClientUserConnection();
+        }
 
-            var lobbyvm = new LobbyViewModel();
-            _lobbyController = new LobbyController(this.Sys, ref lobbyvm);
-            lobbyList.DataContext = _lobbyController;
+        private void InitializeClientUserConnection()
+        {
+            var roomsViewModel = new RoomViewModel();
+            var lobbyViewModel = new LobbyViewModel();
 
-            this.DataContext = vm;
-            vm.Users.Add("jason1234");
+            _roomController = new RoomController(Sys, ref roomsViewModel);
+            DataContext = roomsViewModel;
 
-            //return;
-            
-            
+            _lobbyController = new LobbyController(Sys, ref lobbyViewModel);
+            LobbyPanel.DataContext = lobbyViewModel;
+
+            _clientUserConnection = Sys.ActorOf(Props.Create<ClientUserConnection>(_lobbyController, _roomController.ClientRoom));
         }
 
         private void HandleUserListReceived(UserList obj)
@@ -77,18 +74,14 @@ akka {
     }
 }
 ");
-
             this.Sys = ActorSystem.Create("MyClient", config);
-
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             _roomController.DoStuff();
         }
-        private RoomController _roomController;
-        private LobbyController _lobbyController;
+        
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -99,9 +92,9 @@ akka {
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void RefreshRooms_Click(object sender, RoutedEventArgs e)
         {
-
+            _clientUserConnection.Tell(new GetRooms());
         }
     }
 }
