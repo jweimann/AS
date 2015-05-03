@@ -10,6 +10,8 @@ namespace AS.Actors.Lobby
 {
     public class Lobby : ReceiveActor
     {
+        private const string DEFAULT_CHAT_ROOM = "OpenChat";
+
         private List<string> _rooms;
 
         public Lobby()
@@ -19,6 +21,9 @@ namespace AS.Actors.Lobby
             Receive<GetRooms>(msg => 
                 Sender.Tell(new RoomList(_rooms))
                 );
+
+            var room = Context.ActorOf<Room>(DEFAULT_CHAT_ROOM);
+            _rooms.Add(DEFAULT_CHAT_ROOM);
         }
 
         private void AddPlayerToRoom(JoinRoom msg)
@@ -35,3 +40,4 @@ namespace AS.Actors.Lobby
         }
     }
 }
+ 
