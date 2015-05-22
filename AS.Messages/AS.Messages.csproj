@@ -38,6 +38,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.0.0\lib\portable-net45+win8+wpa81\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +54,26 @@
     <Compile Include="Chat.cs" />
     <Compile Include="ConnectionEstablished.cs" />
     <Compile Include="CreateTrackedEntity.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\EntityMessage.cs" />
+    <Compile Include="Entities\GetPosition.cs" />
+    <Compile Include="Entities\JoinRegion.cs" />
+    <Compile Include="Entities\SpawnEntity.cs" />
+    <Compile Include="Entities\SetPosition.cs" />
+    <Compile Include="Entities\TellPosition.cs" />
+    <Compile Include="Entities\UpdatePosition.cs" />
+    <Compile Include="Game\AddEntityToRegion.cs" />
+    <Compile Include="Game\CreateGame.cs" />
+    <Compile Include="Game\ForwardToPlayers.cs" />
+    <Compile Include="Game\GameStarted.cs" />
+    <Compile Include="Game\GetGameState.cs" />
+    <Compile Include="Game\JoinGame.cs" />
+    <Compile Include="Game\JoinGameSuccess.cs" />
+    <Compile Include="Game\StartGame.cs" />
     <Compile Include="GetRooms.cs" />
+    <Compile Include="Region\EntitiesInRegionList.cs" />
+    <Compile Include="Region\JoinRegionSuccess.cs" />
+    <Compile Include="Region\RequestEntityList.cs" />
     <Compile Include="RoomList.cs" />
     <Compile Include="UserCreated.cs" />
     <Compile Include="JoinLobby.cs" />
@@ -61,6 +84,7 @@
     <Compile Include="UserJoinedRoom.cs" />
     <Compile Include="UserLeftRoom.cs" />
     <Compile Include="UserList.cs" />
+    <Compile Include="User\NotAuthenticated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

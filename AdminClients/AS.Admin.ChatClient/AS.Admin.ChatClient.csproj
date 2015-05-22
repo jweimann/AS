@@ -73,9 +73,11 @@
     </ApplicationDefinition>
     <Compile Include="Authentication\AuthenticationActor.cs" />
     <Compile Include="Authentication\AuthenticationController.cs" />
+    <Compile Include="Authentication\AuthenticationViewModel.cs" />
     <Compile Include="ClientControllerBase.cs" />
     <Compile Include="ClientUIActorBase.cs" />
     <Compile Include="Lobby\ClientLobby.cs" />
+    <Compile Include="MessageLoggerViewModel.cs" />
     <Compile Include="Rooms\ClientRoom.cs" />
     <Compile Include="ClientUserConnection.cs" />
     <Compile Include="Rooms\RoomController.cs" />
@@ -83,7 +85,15 @@
     <Compile Include="Lobby\LobbyViewModel.cs" />
     <Compile Include="Rooms\RoomViewModel.cs" />
     <Compile Include="ViewModelBase.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="ViewModels\NewGameViewModel.cs" />
+    <Compile Include="Views\NewGameNameDialog.xaml.cs">
+      <DependentUpon>NewGameNameDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\GameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -91,10 +101,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="Views\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\NewGameNameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

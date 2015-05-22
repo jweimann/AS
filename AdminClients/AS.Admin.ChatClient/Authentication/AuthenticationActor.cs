@@ -10,8 +10,6 @@ namespace AS.Admin.ChatClient.Authentication
 {
     public class AuthenticationActor : ClientUIActorBase
     {
-        public IActorRef _myUserConnection;
-
         public AuthenticationActor(Action<UserCreated> onUserCreated) : base()
         {
             Receive<UserCreated>(message =>
@@ -20,11 +18,11 @@ namespace AS.Admin.ChatClient.Authentication
                 if (onUserCreated != null)
                     onUserCreated(message);
 
+                Context.Parent.Tell(message);
+
                 Console.WriteLine(message);
                 Become(Connected);
             });
-
-            Become(Connected);
         }
 
         private void Connected()

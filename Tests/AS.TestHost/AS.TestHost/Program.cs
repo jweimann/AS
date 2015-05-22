@@ -1,12 +1,9 @@
 ﻿using Akka.Actor;
 using Akka.Configuration;
-using AS.Actors;
 using AS.MockActors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AS.Actors.GameActors;
+using AS.Actors.UserActors;
 
 namespace AS.TestHost
 {
@@ -16,6 +13,8 @@ namespace AS.TestHost
         private static IActorRef _users;
         private static IActorRef _lobby;
         private static IActorRef _mockClientConnectionManager;
+        private static IActorRef _gamesRoot;
+
         static void Main(string[] args)
         {
             var config = ConfigurationFactory.ParseString(@"
@@ -50,6 +49,8 @@ akka {
 
             if (_lobby == null)
                 _lobby = Sys.ActorOf<AS.Actors.Lobby.Lobby>("lobby");
+
+            _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
         }
 
         

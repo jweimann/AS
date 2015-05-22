@@ -65,7 +65,7 @@ namespace AS.Actors.Tests
             Debug.WriteLine("Message Count: " + messages.Count);
             Debug.WriteLine(messages.First().ToString());
         }
-
+        /*
         [Fact]
         public void userConnection_chatBetween2Users_success()
         {
@@ -117,6 +117,21 @@ namespace AS.Actors.Tests
         }
 
         [Fact]
+        public void connectionManager_leaveRoom_notifiesUsers()
+        {
+            var userConnection1 = CreateUserAndJoinChat1("user1");
+            //ReceiveN(1);
+
+            var userConnection2 = CreateUserAndJoinChat1("user2");
+            ReceiveN(1);
+
+            ExpectMsg<UserJoinedRoom>();
+            userConnection1.Tell(new LeaveRoom(this.TestActor, "Chat1"));
+
+            ExpectMsg<UserLeftRoom>();
+        }
+
+        [Fact]
         public void trackedEntities_createTrackedEntity_success()
         {
             var userConnection = InitializeSingleUserThroughConnectionManager();
@@ -142,5 +157,6 @@ namespace AS.Actors.Tests
                 ExpectMsg<Chat>(TimeSpan.FromSeconds(1), "Chat" + i);
             }
         }
+        */
     }
 }

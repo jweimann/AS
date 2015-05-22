@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using AS.Common;
 
 namespace AS.Admin.ChatClient
 {
@@ -12,6 +11,14 @@ namespace AS.Admin.ChatClient
         public RoomViewModel()
         {
             Users = new ObservableCollection<string>();
+            ChatCommand = new RelayCommand(SendChat);
+        }
+
+        private void SendChat(object text)
+        {
+            OutgoingChatText = String.Empty;
+            if (OnSendChat != null)
+                OnSendChat(text.ToString());
         }
 
         private ObservableCollection<string> _users;
@@ -35,5 +42,11 @@ namespace AS.Admin.ChatClient
                 OnPropertyChanged(() => ChatText);
             }
         }
+
+        private string _outgoingChatText;
+        public string OutgoingChatText { get { return _outgoingChatText; } set { _outgoingChatText = value; OnPropertyChanged(() => OutgoingChatText); } }
+
+        public ICommand ChatCommand { get; set; }
+        public Action<string> OnSendChat { get; set; }
     }
 }

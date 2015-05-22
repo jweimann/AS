@@ -11,5 +11,10 @@ namespace AS.Admin.ChatClient
         {
             Sys = sys;
         }
+
+        public void SetConnection(IActorRef userConnectionActor)
+        {
+            _myUserConnection = userConnectionActor;
+        }
     }
 }

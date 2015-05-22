@@ -32,24 +32,20 @@ namespace AS.Admin.ChatClient
         public List<string> Users { get; set; }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var authController = new AuthenticationController(Sys);
-            return;
-            InitializeClientUserConnection();
-        }
-
-        private void InitializeClientUserConnection()
-        {
-            var roomsViewModel = new RoomViewModel();
+            var roomViewModel = new RoomViewModel();
             var lobbyViewModel = new LobbyViewModel();
+            var messageLoggerViewModel = new MessageLoggerViewModel();
 
-            _roomController = new RoomController(Sys, ref roomsViewModel);
-            DataContext = roomsViewModel;
+            _clientUserConnection = Sys.ActorOf(Props.Create<ClientUserConnection>(lobbyViewModel, roomViewModel, messageLoggerViewModel)
+                .WithDispatcher("akka.actor.synchronized-dispatcher"),
+                "ClientUserConnection");
 
-            _lobbyController = new LobbyController(Sys, ref lobbyViewModel);
             LobbyPanel.DataContext = lobbyViewModel;
-
-            _clientUserConnection = Sys.ActorOf(Props.Create<ClientUserConnection>(_lobbyController, _roomController.ClientRoom));
+            RoomPanel.DataContext = roomViewModel;
+            this.DataContext = messageLoggerViewModel;
         }
+
+    
 
         private void HandleUserListReceived(UserList obj)
         {

@@ -1,14 +1,10 @@
 ﻿using Akka.Actor;
 using AS.Actors.ClientConnection;
 using AS.Messages;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace AS.Actors
+namespace AS.Actors.UserActors
 {
     public class Users : ReceiveActor
     {

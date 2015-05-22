@@ -1,7 +1,8 @@
 ﻿using Akka.Actor;
 using AS.Interfaces;
 using System.Diagnostics;
-namespace AS.Actors
+
+namespace AS.Actors.UserActors
 {
     public class UserConnection : UntypedActor, IWithUnboundedStash
     {
@@ -19,7 +20,7 @@ namespace AS.Actors
         protected override void OnReceive(object message)
         {
             var senderSelection = Context.ActorSelection(Sender.Path);
-            if (Sender != _user)
+            if (Sender.Path != _user.Path)
                 ForwardMessageToUser(message);
             else
                 ForwardMessageToClient(message);

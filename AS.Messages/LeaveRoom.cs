@@ -10,9 +10,11 @@ namespace AS.Messages
     public class LeaveRoom
     {
         public IActorRef ActorRef { get; private set; }
-        public LeaveRoom(IActorRef actorRef)
+        public string RoomName { get; private set; }
+        public LeaveRoom(IActorRef actorRef, string roomName)
         {
-            this.ActorRef = actorRef;
+            ActorRef = actorRef;
+            RoomName = roomName;
         }
     }
 }

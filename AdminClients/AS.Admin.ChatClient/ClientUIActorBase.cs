@@ -9,10 +9,6 @@ namespace AS.Admin.ChatClient
 
         public ClientUIActorBase()
         {
-            Receive<UserCreated>(message =>
-            {
-                _myUserConnection = message.UserConnectionActor;
-            });
         }
     }
 }

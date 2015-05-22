@@ -4,12 +4,14 @@ using AS.Actors.ClientConnection;
 using AS.Messages;
 using AS.MockActors;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using AS.Actors.UserActors;
+using AS.Actors.GameActors;
+using Akka.TestKit;
+using AS.Messages.Game;
 
 namespace AS.Actors.Tests
 {
@@ -18,6 +20,7 @@ namespace AS.Actors.Tests
         protected IActorRef _lobby;
         protected IActorRef _users;
         protected IActorRef _mockClientConnectionManager;
+        protected IActorRef _gamesRoot;
 
         public ASTestBase()
         {
@@ -49,12 +52,15 @@ namespace AS.Actors.Tests
         {
             if (_users == null)
                 _users = Sys.ActorOf<Users>("users");
-
+            
             if (_mockClientConnectionManager == null)
                 _mockClientConnectionManager = Sys.ActorOf<MockClientConnectionManager>("ConnectionManager");
 
             if (_lobby == null)
                 _lobby = Sys.ActorOf<AS.Actors.Lobby.Lobby>("lobby");
+
+            if (_gamesRoot == null)
+                _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
         }
 
         protected IActorRef CreateUserAndJoinChat1(string name)
@@ -68,6 +74,26 @@ namespace AS.Actors.Tests
             ExpectMsg<UserList>(TimeSpan.FromSeconds(20), "UserList " + name);
             //ExpectMsg<UserJoinedRoom>(TimeSpan.FromSeconds(10), "UserJoinedRoom " + name);
             return userConnection;
+        }
+
+        protected static Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject GetPrivate<TActorType>(Akka.TestKit.TestActorRef<TActorType> region) where TActorType : ActorBase
+        {
+            return new Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject(region.UnderlyingActor, new
+            Microsoft.VisualStudio.TestTools.UnitTesting.PrivateType(typeof(TActorType)));
+        }
+
+        protected TestActorRef<User> CreateUserAndGame(out IActorRef game)
+        {
+            Props props = Props.Create<User>(new object[] { TestActor });
+            var user = ActorOfAsTestActorRef<User>(props, "TestUser");
+            ExpectMsg<UserCreated>();
+            user.Tell(new Authenticate("TestUser"));
+            ExpectMsg<AuthenticateResult>();
+            user.Tell(new CreateGame("TestGame"));
+            JoinGameSuccess response = ExpectMsg<JoinGameSuccess>();
+            Assert.False(response.Game.IsNobody());
+            game = response.Game;
+            return user;
         }
     }
 }

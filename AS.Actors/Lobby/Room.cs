@@ -37,6 +37,7 @@ namespace AS.Actors.Lobby
             Receive<LeaveRoom>(unsub =>
             {
                 _subscribers.Remove(unsub.ActorRef);
+                MessageSubscribers(new UserLeftRoom(unsub.ActorRef.ToString()));
             });
         }
 

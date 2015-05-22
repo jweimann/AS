@@ -18,12 +18,23 @@ namespace AS.Actors.Lobby
         {
             _rooms = new List<string>();
             Receive<JoinRoom>(msg => AddPlayerToRoom(msg));
+            Receive<LeaveRoom>(msg => RemovePlayerFromRoom(msg));
             Receive<GetRooms>(msg => 
                 Sender.Tell(new RoomList(_rooms))
                 );
 
+
             var room = Context.ActorOf<Room>(DEFAULT_CHAT_ROOM);
             _rooms.Add(DEFAULT_CHAT_ROOM);
+        }
+
+        private void RemovePlayerFromRoom(LeaveRoom msg)
+        {
+            if (msg.RoomName != null)
+            {
+                IActorRef room = Context.Child(msg.RoomName);
+                room.Tell(msg);
+            }
         }
 
         private void AddPlayerToRoom(JoinRoom msg)

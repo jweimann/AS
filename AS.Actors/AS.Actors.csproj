@@ -39,6 +39,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.0.0\lib\portable-net45+win8+wpa81\System.Numerics.Vectors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,12 +52,18 @@
   <ItemGroup>
     <Compile Include="ClientConnection\ClientConnectionManager.cs" />
     <Compile Include="ClientConnection\MockActorConnection.cs" />
+    <Compile Include="GameActors\Game.cs" />
+    <Compile Include="GameActors\EntityManager.cs" />
+    <Compile Include="GameActors\GameManager.cs" />
+    <Compile Include="GameActors\GamesRoot.cs" />
+    <Compile Include="GameActors\Region.cs" />
+    <Compile Include="GameActors\RegionManager.cs" />
     <Compile Include="Lobby\Lobby.cs" />
     <Compile Include="Lobby\Room.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="UserActors\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserConnection.cs" />
-    <Compile Include="Users.cs" />
+    <Compile Include="UserActors\UserConnection.cs" />
+    <Compile Include="UserActors\Users.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -66,6 +76,10 @@
     <ProjectReference Include="..\AS.Messages\AS.Messages.csproj">
       <Project>{260c915f-0e9a-494b-ba7e-a04c8d7955bf}</Project>
       <Name>AS.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\AS.Common\AS.Common.csproj">
+      <Project>{e41ba798-4ada-4d85-9c3e-2221643bfbb6}</Project>
+      <Name>AS.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

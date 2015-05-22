@@ -1,0 +1,95 @@
+﻿<Window x:Class="AS.Admin.ChatClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="521" Width="776" Loaded="Window_Loaded">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <StackPanel x:Name="LobbyPanel" DockPanel.Dock="Left">
+                <TextBox Text="{Binding NewRoomName}"/>
+                <Button Content="Create" Command="{Binding CreateRoomCommand}" Width="200" HorizontalAlignment="Left"/>
+                <Button Content="Join" Command="{Binding JoinRoomCommand}" Width="200" HorizontalAlignment="Left"/>
+                <Button Content="Refresh" Command="{Binding RefreshRoomsCommand}" Width="200" HorizontalAlignment="Left"/>
+                <Button Content="Create Game" Command="{Binding CreateGameCommand}" Width="200" HorizontalAlignment="Left"/>
+                
+                <ListBox  
+                    DockPanel.Dock="Left"
+                    ItemsSource="{Binding RoomNames, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedRoomName, Mode=TwoWay}"
+                    Height="300"
+                    Width="200"
+                    Background="Silver"
+                    HorizontalContentAlignment="Right"/>
+            </StackPanel>
+            
+            <Grid
+                Name="RoomPanel"
+                DockPanel.Dock="Left"
+                Width="500"
+                HorizontalAlignment="Stretch"
+                Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding ChatText}"
+                           HorizontalAlignment="Left"/>
+                <TextBox AcceptsReturn="False"
+                         Text="{Binding OutgoingChatText}"
+                         Grid.Row="1">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding ChatCommand}" 
+                        CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource AncestorType={x:Type TextBox}}}" />
+                    </TextBox.InputBindings>
+
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Type and press [Enter] to chat..." Foreground="LightGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+
+                </TextBox>
+                <ListBox  
+                    Grid.Column="1"
+                    Grid.RowSpan="2"
+                    ItemsSource="{Binding Users, Mode=OneWay}"
+                    Height="Auto"
+                    Width="200"
+                    Background="Silver" HorizontalContentAlignment="Right"/>
+            </Grid>
+            
+        </StackPanel>
+        <TextBlock
+            Grid.Row="1"
+            Height="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            Text="{Binding LogText}"/>
+    </Grid>
+</Window>

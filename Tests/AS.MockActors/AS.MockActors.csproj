@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoReplyActor.cs" />
+    <Compile Include="ForwardToTestActor.cs" />
     <Compile Include="MockClientConnectionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

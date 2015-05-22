@@ -9,12 +9,16 @@ namespace AS.Admin.ChatClient
         private Action<UserList> _onUserListReceived;
         private Action<UserJoinedRoom> _onUserJoined;
         private Action<Chat> _onChat;
+        private Action<UserLeftRoom> _onUserLeft;
 
-        public ClientRoom(Action<UserList> onUserListReceived, Action<UserJoinedRoom> onUserJoined, Action<Chat> onChat, Action<UserCreated> onUserCreated)
+        public ClientRoom(RoomController roomController)// Action<UserList> onUserListReceived, Action<UserJoinedRoom> onUserJoined, Action<Chat> onChat, Action<UserCreated> onUserCreated)
         {
-            _onChat = onChat;
-            _onUserListReceived = onUserListReceived;
-            _onUserJoined = onUserJoined;
+            _onChat = roomController.OnChat;
+            _onUserListReceived = roomController.OnUserListReceived;
+            _onUserJoined = roomController.OnUserJoined;
+            _onUserLeft = roomController.OnUserLeft;
+
+            Become(Authenticated);
         }
     
 
@@ -41,17 +45,16 @@ namespace AS.Admin.ChatClient
                 Console.WriteLine(message);
             });
 
+            Receive<UserLeftRoom>(message =>
+            {
+                if (_onUserLeft != null)
+                    _onUserLeft(message);
+            });
+
             Receive<Chat>(message =>
                 {
-                    if (Sender.Path.Equals(_myUserConnection.Path))
-                    {
-                        if (_onChat != null)
-                            _onChat(message);
-                    }
-                    else
-                    {
-                        _myUserConnection.Tell(message);
-                    }
+                if (_onChat != null)
+                    _onChat(message);
                 });
         }
 
