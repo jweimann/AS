@@ -76,6 +76,7 @@
     <Compile Include="GameUnitTests.cs" />
     <Compile Include="MockRemoteUser.cs" />
     <Compile Include="RegionTests.cs" />
+    <Compile Include="SystemStatsTests.cs" />
     <Compile Include="UserConnectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserTests.cs" />

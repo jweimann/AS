@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E2799E7F-BFC3-4775-B327-141E358D506C}</ProjectGuid>
+    <ProjectGuid>{282AA8A4-2955-4F92-9FFF-C21AF396B969}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AS.Actors</RootNamespace>
-    <AssemblyName>AS.Actors</AssemblyName>
+    <RootNamespace>AS.Client.Common</RootNamespace>
+    <AssemblyName>AS.Client.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>ce5731b3</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,54 +31,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Akka">
-      <HintPath>..\packages\Akka.1.0.0\lib\net45\Akka.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.0.0\lib\portable-net45+win8+wpa81\System.Numerics.Vectors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientConnection\ClientConnectionManager.cs" />
-    <Compile Include="ClientConnection\MockActorConnection.cs" />
-    <Compile Include="GameActors\Game.cs" />
-    <Compile Include="GameActors\EntityManager.cs" />
-    <Compile Include="GameActors\GameManager.cs" />
-    <Compile Include="GameActors\GamesRoot.cs" />
-    <Compile Include="GameActors\Region.cs" />
-    <Compile Include="GameActors\RegionManager.cs" />
-    <Compile Include="Lobby\Lobby.cs" />
-    <Compile Include="Lobby\Room.cs" />
-    <Compile Include="StatsActors\StatsGatherer.cs" />
-    <Compile Include="UserActors\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserActors\UserConnection.cs" />
-    <Compile Include="UserActors\Users.cs" />
+    <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AS.Interfaces\AS.Interfaces.csproj">
-      <Project>{9890f6ac-c932-4443-8410-da2689853965}</Project>
-      <Name>AS.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AS.Messages\AS.Messages.csproj">
-      <Project>{260c915f-0e9a-494b-ba7e-a04c8d7955bf}</Project>
-      <Name>AS.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\AS.Common\AS.Common.csproj">
+    <ProjectReference Include="..\..\..\Common\AS.Common\AS.Common.csproj">
       <Project>{e41ba798-4ada-4d85-9c3e-2221643bfbb6}</Project>
       <Name>AS.Common</Name>
     </ProjectReference>

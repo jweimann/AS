@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using AS.Messages;
+using AS.Messages.SystemStats;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,6 +40,8 @@ namespace AS.Actors.Lobby
                 _subscribers.Remove(unsub.ActorRef);
                 MessageSubscribers(new UserLeftRoom(unsub.ActorRef.ToString()));
             });
+
+            Receive<GetSystemStats>(message => Sender.Tell(new RoomStats()));
         }
 
         private List<string> GetUserList()

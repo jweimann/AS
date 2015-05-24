@@ -17,6 +17,7 @@ namespace AS.Actors
     public class Region : ReceiveActor
     {
         private Bounds _bounds;
+        private HashSet<IActorRef> _subscribedUsers = new HashSet<IActorRef>();
         private Dictionary<long, IActorRef> _entities = new Dictionary<long, IActorRef>();
         private Dictionary<long, Vector3> _entityLocations = new Dictionary<long, Vector3>();
         private int _maxEntities;
@@ -32,7 +33,7 @@ namespace AS.Actors
             Receive<UpdatePosition>(message =>
             {
                 _entityLocations[message.EntityId] = message.Position;
-                MessageEntities(message, _entities[message.EntityId]);
+                MessagePlayers(message);
             });
             Receive<RequestEntityList>(message =>
             {
@@ -40,16 +41,15 @@ namespace AS.Actors
                 foreach (var child in _children.Values)
                     child.Tell(message, Sender);
             });
+
+            Receive<SubscribeUserToRegion>(message => _subscribedUsers.Add(message.UserActor));
+            Receive<UnsubscribeUserToRegion>(message => _subscribedUsers.Remove(message.UserActor));
         }
 
-        private void MessageEntities(UpdatePosition message, IActorRef excludeActorRef = null)
+        private void MessagePlayers(UpdatePosition message)
         {
-            return;
-            foreach (var entity in _entities.Values)
-            {
-                if (excludeActorRef != null && entity.Path != excludeActorRef.Path)
-                    entity.Tell(message);
-            }
+            foreach (var user in _subscribedUsers)
+                user.Tell(message);
         }
 
         private void AddEntity(AddEntityToRegion message)

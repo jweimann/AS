@@ -43,8 +43,8 @@ namespace AS.Actors.Tests
         [Fact]
         public void gameRoot_joinGame_addsPlayer()
         {
-            IActorRef gameRoot = ActorOf<GamesRoot>("GamesRoot");
-            gameRoot.Tell(new CreateGame("TestGameName"));
+            //IActorRef gameRoot = ActorOf<GamesRoot>("GamesRoot");
+            _gamesRoot.Tell(new CreateGame("TestGameName"));
 
             var gameSelection = ActorSelection("akka://test/user/GamesRoot/GameManager1");
             IActorRef gameManager = gameSelection.ResolveOne(TimeSpan.FromSeconds(3)).Result;

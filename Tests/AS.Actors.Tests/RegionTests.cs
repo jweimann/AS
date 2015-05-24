@@ -82,14 +82,17 @@ namespace AS.Actors.Tests
             rootRegion.Tell(new RequestEntityList());
             var msg = ExpectMsg<EntitiesInRegionList>();
             Assert.Equal(0, msg.Entities.Count);
-            //var response = ReceiveN(1);
         }
 
         [Fact]
         public void regions_updatePosition_sentToUsers()
         {
-            throw new NotImplementedException();
             var rootRegion = GetRootRegion();
+            rootRegion.Tell(new SubscribeUserToRegion(this.TestActor));
+            rootRegion.Tell(new UpdatePosition(1, Vector3.One));
+            var response = ExpectMsg<UpdatePosition>();
+            Assert.Equal(1, response.EntityId);
+            Assert.Equal(Vector3.One, response.Position);
         }
 
         //[Fact]

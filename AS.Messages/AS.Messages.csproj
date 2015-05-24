@@ -74,7 +74,14 @@
     <Compile Include="Region\EntitiesInRegionList.cs" />
     <Compile Include="Region\JoinRegionSuccess.cs" />
     <Compile Include="Region\RequestEntityList.cs" />
+    <Compile Include="Region\UnsubscribeUserToRegion.cs" />
+    <Compile Include="Region\SubscribeUserToRegion.cs" />
     <Compile Include="RoomList.cs" />
+    <Compile Include="SystemStats\GetSystemStats.cs" />
+    <Compile Include="SystemStats\RefreshSystemStats.cs" />
+    <Compile Include="SystemStats\RoomStats.cs" />
+    <Compile Include="SystemStats\SubscribeToStats.cs" />
+    <Compile Include="SystemStats\SystemStats.cs" />
     <Compile Include="UserCreated.cs" />
     <Compile Include="JoinLobby.cs" />
     <Compile Include="JoinRoom.cs" />

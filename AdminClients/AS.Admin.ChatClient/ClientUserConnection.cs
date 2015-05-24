@@ -4,6 +4,7 @@ using AS.Actors.ClientConnection;
 using System;
 using System.Windows;
 using AS.Admin.ChatClient.Authentication;
+using AS.Messages.SystemStats;
 
 namespace AS.Admin.ChatClient
 {
@@ -16,6 +17,7 @@ namespace AS.Admin.ChatClient
         private LobbyController _lobbyController;
         private AuthenticationController _authenticationController;
         private MessageLoggerViewModel _messageLoggerViewModel;
+        private ActorSelection _statsGatherer;
 
         public Action<RoomList> OnRoomListReceived { get; private set; }
 
@@ -38,6 +40,9 @@ namespace AS.Admin.ChatClient
         {
             _mockClientConnectionManager = Context.System.ActorSelection("akka.tcp://as@localhost:8081/user/ConnectionManager");
             _mockClientConnectionManager.Tell(new ConnectionEstablished(new MockActorConnection(Self)));
+
+            _statsGatherer = Context.System.ActorSelection("akka.tcp://as@localhost:8081/user/StatsGatherer");
+            _statsGatherer.Tell(new SubscribeToStats(Self));
         }
 
 

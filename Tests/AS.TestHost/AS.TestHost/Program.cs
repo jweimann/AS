@@ -4,6 +4,7 @@ using AS.MockActors;
 using System;
 using AS.Actors.GameActors;
 using AS.Actors.UserActors;
+using AS.Actors.StatsActors;
 
 namespace AS.TestHost
 {
@@ -14,11 +15,13 @@ namespace AS.TestHost
         private static IActorRef _lobby;
         private static IActorRef _mockClientConnectionManager;
         private static IActorRef _gamesRoot;
+        private static IActorRef _statsGatherer;
 
         static void Main(string[] args)
         {
             var config = ConfigurationFactory.ParseString(@"
 akka {  
+    loglevel = ""DEBUG""
     actor {
         provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
     }
@@ -51,6 +54,8 @@ akka {
                 _lobby = Sys.ActorOf<AS.Actors.Lobby.Lobby>("lobby");
 
             _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
+
+            _statsGatherer = Sys.ActorOf<StatsGatherer>("StatsGatherer");
         }
 
         

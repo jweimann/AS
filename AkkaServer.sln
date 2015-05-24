@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{71
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaHelpers", "External\AkkaHelpers\AkkaHelpers.csproj", "{637C585F-8EA3-4C8C-BB83-F0E5C9855D05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AS.Admin.ServerStatsClient", "AdminClients\AS.Admin.ServerStatsClient\AS.Admin.ServerStatsClient\AS.Admin.ServerStatsClient.csproj", "{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AS.Client.Common", "AdminClients\AS.Admin.Common\AS.Client.Common\AS.Client.Common.csproj", "{282AA8A4-2955-4F92-9FFF-C21AF396B969}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,14 @@ Global
 		{637C585F-8EA3-4C8C-BB83-F0E5C9855D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{637C585F-8EA3-4C8C-BB83-F0E5C9855D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{637C585F-8EA3-4C8C-BB83-F0E5C9855D05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282AA8A4-2955-4F92-9FFF-C21AF396B969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282AA8A4-2955-4F92-9FFF-C21AF396B969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282AA8A4-2955-4F92-9FFF-C21AF396B969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282AA8A4-2955-4F92-9FFF-C21AF396B969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,5 +113,7 @@ Global
 		{5FAF533B-E55A-4D22-BF40-8F1336CDAF3D} = {418FA3E6-3B26-4E74-90CC-332F48874281}
 		{9917C585-3F9F-425F-A0BB-EF644E612830} = {E5BC7909-3244-4B5B-A06D-AA42CD7C3BD0}
 		{637C585F-8EA3-4C8C-BB83-F0E5C9855D05} = {716ED828-A33C-4653-BA99-4CCCB5D4633A}
+		{59452044-AFE5-4EF2-A0B6-7624DF8B1FFF} = {68AA4B03-66B3-4632-AF6C-8CB063EB4060}
+		{282AA8A4-2955-4F92-9FFF-C21AF396B969} = {68AA4B03-66B3-4632-AF6C-8CB063EB4060}
 	EndGlobalSection
 EndGlobal
