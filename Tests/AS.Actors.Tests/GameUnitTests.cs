@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
+using UnityEngine;
 using Akka.Actor;
 using AS.Actors.GameActors;
 using AS.Messages;
@@ -72,7 +72,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_addsEntity()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.Zero));
+            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero));
 
             Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject privBase = 
                 new Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject(testGameActor.UnderlyingActor, new
@@ -85,7 +85,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_populatesEntitiesByIdDictionary()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.Zero));
+            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero));
 
             //PrivateObject privBase = new PrivateObject(testGameActor.UnderlyingActor, new PrivateType(typeof(EntityManager)));
 
@@ -99,7 +99,7 @@ namespace AS.Actors.Tests
         //{
             
         //    var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-        //    testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.Zero));
+        //    testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero));
         //    ForwardToPlayers forwardMessage = ExpectMsg<ForwardToPlayers>();
         //    Assert.IsType<SpawnEntity>(forwardMessage.Message);
         //}

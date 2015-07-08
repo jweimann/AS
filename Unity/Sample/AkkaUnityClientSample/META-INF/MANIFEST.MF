@@ -1,0 +1,93 @@
+Manifest-Version: 1.0
+Created-By: 1.0 (Android)
+
+Name: assets/bin/Data/Managed/Assembly-CSharp.dll
+SHA1-Digest: tauKovLqPvM8yTGvoW++nlBGPz4=
+
+Name: lib/armeabi-v7a/libmono.so
+SHA1-Digest: sP355cyqL2cEQRb/jneLi7BOX+s=
+
+Name: assets/bin/Data/splash.png
+SHA1-Digest: WL+5PBN6ZD41VmsXXQ5tkpJcMy4=
+
+Name: resources.arsc
+SHA1-Digest: yKkEx6LKsz5fh50Z84OgkBCFqbw=
+
+Name: assets/bin/Data/Managed/System.dll
+SHA1-Digest: sTq/2uelXME8hvE6DrrzELKCwfg=
+
+Name: assets/bin/Data/Managed/Mono.Cecil.Mdb.dll
+SHA1-Digest: toFxuGaihyVlTSJgqc139uw7KG4=
+
+Name: assets/bin/Data/sharedassets0.assets
+SHA1-Digest: gkg4KAn+xkRwnXsLz7l1dNZs0FQ=
+
+Name: AndroidManifest.xml
+SHA1-Digest: bkCPD3NhskUm7iAzynhx/JHwxf8=
+
+Name: assets/bin/Data/Managed/Mono.Security.dll
+SHA1-Digest: KlP868QQ5jICRWIrTD5jtI4/KYs=
+
+Name: assets/bin/Data/Managed/Mono.Cecil.dll
+SHA1-Digest: lHJgAyfGMjhWhazbEeXl9JssJ1I=
+
+Name: lib/armeabi-v7a/libmain.so
+SHA1-Digest: /JTuFA3xV8PyhksogkvcPpGFVtk=
+
+Name: assets/bin/Data/unity default resources
+SHA1-Digest: BY0lLvJ6mesfyaDPI3IBi8Kei/M=
+
+Name: assets/bin/Data/Managed/UnityEngine.xml
+SHA1-Digest: wrl4WBo6lq/TRffyRPAjjXtoAHA=
+
+Name: assets/bin/Data/Managed/UnityEngine.dll
+SHA1-Digest: JLWDe93iY8h+BmTs8LtUHo4HELs=
+
+Name: assets/bin/Data/Managed/UnityEngine.Analytics.dll
+SHA1-Digest: zqmq/JZet/aIZYliMD6a4YYh4Pk=
+
+Name: res/drawable-xhdpi-v4/app_banner.png
+SHA1-Digest: aqv4ndS5je2XQWdMhG66+5fhv9I=
+
+Name: assets/bin/Data/mainData
+SHA1-Digest: uKtrC7Mg6tONuPaxxLE8vipwqsE=
+
+Name: assets/bin/Data/Managed/Mono.Cecil.Pdb.dll
+SHA1-Digest: e6/HJMtWtofIEQN30luD71vhWuE=
+
+Name: classes.dex
+SHA1-Digest: ezOkVz2Qf39USU2kE0SWxJNqaRw=
+
+Name: lib/x86/libmono.so
+SHA1-Digest: D0StIRPpFQ/ArwnmvScILTcQlQE=
+
+Name: lib/armeabi-v7a/libunity.so
+SHA1-Digest: QDqtshPZRt3BwnuSJ+jaGIjxgZU=
+
+Name: assets/bin/Data/settings.xml
+SHA1-Digest: g6k6GIIPNNvO9QZBHvNR3bcj1ng=
+
+Name: res/drawable/app_icon.png
+SHA1-Digest: XuNxr0+gnOTvykMrYIyJnX4StUY=
+
+Name: assets/bin/Data/Managed/UnityEngine.Networking.dll
+SHA1-Digest: O3xCxC+9kGbPf9DfSRoHvwd612o=
+
+Name: assets/bin/Data/Managed/UnityEngine.UI.dll
+SHA1-Digest: gojjxoWDmVSqs0T4fdig8VJxskA=
+
+Name: assets/bin/Data/Managed/mscorlib.dll
+SHA1-Digest: +uvpn2cJk9z/qRcMuhOd78AdN3U=
+
+Name: assets/bin/Data/Managed/System.Core.dll
+SHA1-Digest: wcq6rfVySG8+QHoyjCaQ/4nGNks=
+
+Name: lib/x86/libunity.so
+SHA1-Digest: 6XsMuIsM2oCN1cM6wt5tqSswWnc=
+
+Name: assets/bin/Data/Resources/unity_builtin_extra
+SHA1-Digest: Jzneubhf8sNPIQGw0adaeDMliAo=
+
+Name: lib/x86/libmain.so
+SHA1-Digest: QMcGmjhuaXznGwN3rNQ5ubuy1Aw=
+

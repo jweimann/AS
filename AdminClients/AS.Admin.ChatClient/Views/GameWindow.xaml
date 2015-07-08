@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="GameWindow" Height="300" Width="300">
     <Grid>
-        <TextBlock Text="{Binding GameName}"/>
+        <StackPanel>
+            <TextBlock Text="{Binding GameName}" />
+            <Button Command="{Binding StartGameCommand}" Content="Start Game" />
+            <TextBlock Text="GameState:" />
+            <TextBlock Text="{Binding GameState}" />
+            <Button Command="{Binding SpawnTestEntityCommand}" Content="Spawn Test Entity" />
+            <ListBox ItemsSource="{Binding Regions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding EntityId}" />
+                            <Label Content="{Binding Position}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding Entities}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding EntityId}" />
+                            <Label Content="{Binding Position}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
     </Grid>
 </Window>

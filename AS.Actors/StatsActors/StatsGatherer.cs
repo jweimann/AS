@@ -12,6 +12,8 @@ namespace AS.Actors.StatsActors
     public class StatsGatherer : ReceiveActor
     {
         HashSet<IActorRef> _rooms = new HashSet<IActorRef>();
+        HashSet<IActorRef> _games = new HashSet<IActorRef>();
+        
         private HashSet<IActorRef> _subscribers = new HashSet<IActorRef>();
 
         public StatsGatherer()
@@ -21,8 +23,7 @@ namespace AS.Actors.StatsActors
             Receive<RefreshSystemStats>(message => RefreshSystemStats());
             Receive<GetSystemStats>(message => {
                 var exists = Sender.IsNobody();
-                Sender.Tell(new SystemStats(_rooms.Count));
-                
+                Sender.Tell(new SystemStats(_rooms.Count, _games.Count));
             });
 
             Receive<RoomStats>(message =>
@@ -32,9 +33,16 @@ namespace AS.Actors.StatsActors
                 SendStatsToSubscribers();
             });
 
+            Receive<GameStats>(message =>
+            {
+                _games.Add(Sender);
+                Debug.WriteLine($"Game {Sender.Path} Responded");
+                SendStatsToSubscribers();
+            });
+
             Receive<SubscribeToStats>(message =>
             {
-                Sender.Tell(new SystemStats(100));
+                Sender.Tell(new SystemStats(-1, -1));
                 _subscribers.Add(message.Subscriber);
             });
         }
@@ -44,7 +52,7 @@ namespace AS.Actors.StatsActors
             foreach (var subscriber in _subscribers)
             {
                 if (!subscriber.IsNobody())
-                    subscriber.Tell(new SystemStats(_rooms.Count));
+                    subscriber.Tell(new SystemStats(_rooms.Count, _games.Count));
             }
         }
 
@@ -53,6 +61,10 @@ namespace AS.Actors.StatsActors
             _rooms.Clear();
             ActorSelection rooms = Context.System.ActorSelection("/user/lobby/*");
             rooms.Tell(new GetSystemStats());
+
+            _games.Clear();
+            ActorSelection games = Context.System.ActorSelection("/user/GamesRoot/*");
+            games.Tell(new GetSystemStats());
         }
     }
 }

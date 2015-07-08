@@ -11,6 +11,8 @@
         <TextBox Text="{Binding Name}"
                  Width="200"
                  Height="50"/>
-        <Button Content="OK" Command="{Binding CreateGameCommand}" />
+        <Button Content="OK" 
+                Command="{Binding CreateGameCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
     </StackPanel>
 </Window>

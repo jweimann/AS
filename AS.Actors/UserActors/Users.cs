@@ -17,17 +17,28 @@ namespace AS.Actors.UserActors
         {
             Debug.WriteLine("HandleNewConnection");
             
-            MockActorConnection mockActorConnection = message.Connection as MockActorConnection;
+            MockActorConnection mockActorConnection = message.MockConnection as MockActorConnection;
 
-            Debug.WriteLine("Sender/MockConnection: " + mockActorConnection.TestActor.Path.ToString());
+            if (mockActorConnection != null)
+            {
+                Debug.WriteLine("Sender/MockConnection: " + mockActorConnection.TestActor.Path.ToString());
 
-            Props props = Props.Create<User>(mockActorConnection.TestActor);
-            //Props props = Props.Create<User>(Sender);
-            var user = Context.System.ActorOf(props);
+                Props props = Props.Create<User>(mockActorConnection.TestActor);
+                var user = Context.System.ActorOf(props);
+                Debug.WriteLine("User Created " + user.Path.ToString());
+            }
+            else
+            {
+                //Debug.WriteLine("Sender/MockConnection: " + mockActorConnection.TestActor.Path.ToString());
+
+                Props props = Props.Create<User>(message.Connection);
+                var user = Context.System.ActorOf(props);
+                Debug.WriteLine("User Created " + user.Path.ToString());
+            }
 
             Task.Delay(1000);
             
-            Debug.WriteLine("User Created " + user.Path.ToString());
+            
 
             // move this out of here or to an ask?
 

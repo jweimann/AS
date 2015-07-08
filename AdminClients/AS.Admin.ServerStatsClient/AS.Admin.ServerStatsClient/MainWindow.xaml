@@ -10,6 +10,8 @@
         <StackPanel>
             <TextBlock Text="Room Count:" />
             <TextBlock Text="{Binding RoomCount}" />
+            <TextBlock Text="Game Count:" />
+            <TextBlock Text="{Binding GameCount}" />
         </StackPanel>
     </Grid>
 </Window>

@@ -10,6 +10,7 @@ using AS.Common;
 using AS.Messages.Game;
 using AS.Admin.ChatClient.Views;
 using AS.Admin.ChatClient.ViewModels;
+using System.Windows;
 
 namespace AS.Admin.ChatClient
 {
@@ -48,15 +49,17 @@ namespace AS.Admin.ChatClient
             
             dialog.ShowDialog();
 
-            _myUserConnection.Tell(new CreateGame(vm.Name));
-
             //_myUserConnection.Tell(new JoinGame(_myUserConnection));
             //throw new NotImplementedException();
         }
 
         private void SendCreateGameCommand(object obj)
         {
-            _myUserConnection.Tell(new CreateGame("ignoredTheUI"));
+            ((Window)obj).Close();
+            NewGameViewModel vm = ((Window)obj).DataContext as NewGameViewModel;
+            _myUserConnection.Tell(new CreateGame(vm.Name));
+            
+            //_myUserConnection.Tell(new CreateGame("ignoredTheUI"));
         }
 
         private void JoinNewRoomAndLeaveCurrent(string roomName)

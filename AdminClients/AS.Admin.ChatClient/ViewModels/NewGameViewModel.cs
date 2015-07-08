@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using AS.Client.Core.WPF;
+using System.Windows.Input;
 
 namespace AS.Admin.ChatClient.ViewModels
 {

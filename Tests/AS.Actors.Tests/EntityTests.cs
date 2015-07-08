@@ -2,11 +2,7 @@
 using AS.Messages.Entities;
 using AS.Messages.Region;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 using Xunit;
 
 namespace AS.Actors.Tests
@@ -16,12 +12,12 @@ namespace AS.Actors.Tests
         [Fact]
         public void entity_setPosition_notifiesRegion()
         {
-            Props props = Props.Create<Entity>(new object[] { 1, Vector3.Zero });
+            Props props = Props.Create<Entity>(new object[] { 1, Vector3.zero });
             IActorRef entity = Sys.ActorOf(props, "testentity");
             entity.Tell(new JoinRegionSuccess(this.TestActor));
-            entity.Tell(new SetPosition(Vector3.One));
+            entity.Tell(new SetPosition(Vector3.one, 1));
             UpdatePosition response = ExpectMsg<UpdatePosition>(TimeSpan.FromSeconds(1));
-            Assert.Equal(Vector3.One, response.Position);
+            Assert.Equal(Vector3.one, response.Position);
         }
     }
 }

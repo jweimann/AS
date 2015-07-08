@@ -6,6 +6,7 @@ using AS.Messages.Entities;
 using AS.Messages.Game;
 using System;
 using AS.Messages;
+using AS.Messages.SystemStats;
 
 namespace AS.Actors.GameActors
 {
@@ -15,6 +16,7 @@ namespace AS.Actors.GameActors
         private IActorRef _users;
         private Props _regionsProps;
         private IActorRef _regions;
+        private string _name;
 
         public List<IActorRef> Players { get; private set; } = new List<IActorRef>();
         public int MinimumPlayersToStart { get; private set; } = 1;
@@ -32,14 +34,15 @@ namespace AS.Actors.GameActors
         public Game()
         {
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 3);
+            _regionsProps = Props.Create<RegionManager>(100.0f, 300);
             Become(Initializing);
         }
 
         public Game(CreateGame createGameMessage)
         {
+            _name = createGameMessage.GameName;
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 3);
+            _regionsProps = Props.Create<RegionManager>(100.0f, 300);
             Become(Initializing);
         }
 
@@ -61,7 +64,7 @@ namespace AS.Actors.GameActors
             Receive<JoinGame>(message =>
             {
                 Players.Add(message.ActorRef);
-                Sender.Tell(new JoinGameSuccess(Self));
+                Sender.Tell(new JoinGameSuccess(Self, _name));
             });
 
             Receive<StartGame>(message =>
@@ -72,6 +75,9 @@ namespace AS.Actors.GameActors
                     Become(Playing);
                 //Become(Starting);
             });
+
+            Receive<GetSystemStats>(message => 
+            Sender.Tell(new GameStats(GameState.NotStarted)));
 
             ReceiveAny(message =>
                 Stash.Stash()
@@ -97,16 +103,12 @@ namespace AS.Actors.GameActors
             Debug.WriteLine($"{Self.Path.ToString()}Became Playing");
 
             Receive<ForwardToPlayers>(message => MessagePlayers(message.Message));
+
+            Receive<GetSystemStats>(message => Sender.Tell(new GameStats(GameState.Playing)));
         }
 
         private void MessagePlayers(object message)
         {
-            //ActorSelection playerSelection = new ActorSelection(Users, "*");//, Players.Select(t => t.Path.Elements.Last()));
-            //ActorSelection playerSelection = Context.ActorSelection("/user/users");
-            //Debug.WriteLine($"Messaging ActorSelection: {playerSelection.PathString}");
-
-            //playerSelection.Tell(message);
-
             foreach (var player in Players)
                 player.Tell(message, Sender);
         }

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Numerics;
+using UnityEngine;
 using System.Threading.Tasks;
 using Akka.Actor;
 using AS.Common;
@@ -16,17 +16,17 @@ namespace AS.Actors
 
     public class Region : ReceiveActor
     {
-        private Bounds _bounds;
+        private UnityEngine.Bounds _bounds;
         private HashSet<IActorRef> _subscribedUsers = new HashSet<IActorRef>();
         private Dictionary<long, IActorRef> _entities = new Dictionary<long, IActorRef>();
         private Dictionary<long, Vector3> _entityLocations = new Dictionary<long, Vector3>();
         private int _maxEntities;
-        private Dictionary<Bounds, IActorRef> _children = new Dictionary<Bounds, IActorRef>();
+        private Dictionary<UnityEngine.Bounds, IActorRef> _children = new Dictionary<UnityEngine.Bounds, IActorRef>();
         private bool HasChildren {  get { return _children.Count > 0; } }
 
-        public Region(Bounds bounds, int maxEntities)
+        public Region(UnityEngine.Bounds bounds, int maxEntities)
         {
-            Debug.WriteLine($"Region Spawned {Self.Path.ToString()}");
+            System.Diagnostics.Debug.WriteLine($"Region Spawned {Self.Path.ToString()}");
             _maxEntities = maxEntities;
             _bounds = bounds;
             Receive<AddEntityToRegion>(message => AddEntity(message));
@@ -40,6 +40,11 @@ namespace AS.Actors
                 Sender.Tell(new EntitiesInRegionList(_entities.Values.ToList(), Self.Path.ToString()));
                 foreach (var child in _children.Values)
                     child.Tell(message, Sender);
+            });
+
+            Receive<SetPosition>(message =>
+            {
+                _entities[message.EntityId].Tell(message);
             });
 
             Receive<SubscribeUserToRegion>(message => _subscribedUsers.Add(message.UserActor));
@@ -56,7 +61,7 @@ namespace AS.Actors
         {
             if (EntityPositionIsOutOfBounds(message))
             {
-                Debug.WriteLine($"Unable to spawn entity at position {message.Position.ToString()} which is out of bounds {_bounds.ToString()}");
+                System.Diagnostics.Debug.WriteLine($"Unable to spawn entity at position {message.Position.ToString()} which is out of bounds {_bounds.ToString()}");
                 Context.Parent.Tell(message);
                 return;
             }
@@ -68,18 +73,21 @@ namespace AS.Actors
                 return;
             }
 
-            Debug.WriteLine($"{Self.Path.ToString()} Recieved Message: {message.ToString()} FROM {Sender.Path.ToString()}");
+            System.Diagnostics.Debug.WriteLine($"{Self.Path.ToString()} Recieved Message: {message.ToString()} FROM {Sender.Path.ToString()}");
             if (_entities.ContainsKey(message.EntityId))
                 throw new Exception($"Entity ID already exists in database.  ID: {message.EntityId}");
             _entities.Add(message.EntityId, message.EntityActor);
 
+            
 
             if (_entities.Count > _maxEntities)
                 SplitRegion();
             else
                 message.EntityActor.Tell(new JoinRegionSuccess(Self));
 
-            Debug.WriteLine($"AddEntity SUCCESS.  Total Entities: {_entities.Count}");
+            System.Diagnostics.Debug.WriteLine($"AddEntity SUCCESS.  Total Entities: {_entities.Count}");
+
+            Self.Tell(new SubscribeUserToRegion(message.UserActor));
             //else
             //    message.EntityActor.Tell(new JoinRegion(Self));
         }
@@ -91,13 +99,16 @@ namespace AS.Actors
 
         private void SplitRegion()
         {
-            Bounds[] splitBounds = _bounds.Split();
+            throw new NotImplementedException("Disabled this when switching to UnityEngine Bounds and Vector3D because the UnityEngine bounds doesn't have .Split() - Add or fix this.");
+
+            /*
+            UnityEngine.Bounds[] splitBounds = _bounds.Split();
             for (int i = 0; i < splitBounds.Length; i++)
             {
                 Props props = Props.Create<Region>(new object[] { splitBounds[i], _maxEntities });
                 IActorRef child = Context.ActorOf(props, splitBounds[i].ToString());
                 _children.Add(splitBounds[i], child);
-                Debug.WriteLine($"ChildRegion: {child.Path.ToString()}");
+                System.Diagnostics.Debug.WriteLine($"ChildRegion: {child.Path.ToString()}");
             }
 
             foreach (var entityKvp in _entities)
@@ -105,14 +116,15 @@ namespace AS.Actors
                 var entity = entityKvp.Value;
                 var entityId = entityKvp.Key;
                 object pos = entity.Ask<Vector3>(new GetPosition()).Result;
-                Debug.WriteLine($"Pos={pos.GetType().ToString()}");
+                System.Diagnostics.Debug.WriteLine($"Pos={pos.GetType().ToString()}");
                 Vector3 position = (Vector3)pos;
                 var childRegion = GetRegion(position);
-                childRegion.Tell(new AddEntityToRegion(entityId, entity, position));
+                childRegion.Tell(new AddEntityToRegion(entityId, entity, position, Sender));
                 entity.Tell(new JoinRegionSuccess(childRegion));
             }
             _entities.Clear();
-            Debug.WriteLine($"{Self.Path.ToString()} Entities Cleared");
+            System.Diagnostics.Debug.WriteLine($"{Self.Path.ToString()} Entities Cleared");
+            */
         }
 
         private IActorRef GetRegion(Vector3 position)
@@ -122,9 +134,9 @@ namespace AS.Actors
                 if (key.Contains(position))
                     return _children[key];
             }
-            Debug.WriteLine($"Unable to find Child Region for Position {position.ToString()}");
+            System.Diagnostics.Debug.WriteLine($"Unable to find Child Region for Position {position.ToString()}");
             foreach (var key in _children.Keys)
-                Debug.WriteLine($"Child Bounds {key.ToString()}");
+                System.Diagnostics.Debug.WriteLine($"Child Bounds {key.ToString()}");
 
             return null;
             //return _children.First().Value;

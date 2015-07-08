@@ -23,6 +23,10 @@ namespace AS.Actors
             _regionManager = Context.ActorSelection("../RegionManager");
             Receive<SpawnEntity>(message => HandleSpawnEntityMessage(message));
             Receive<EntityMessage>(message => HandleEntityMessage(message));
+            Receive<SetPosition>(message =>
+            {
+                _regionManager.Tell(message);
+            });
         }
 
         private void HandleEntityMessage(EntityMessage message)
@@ -41,15 +45,20 @@ namespace AS.Actors
         private IActorRef SpawnEntity(SpawnEntity message)
         {
             Debug.WriteLine($"{nameof(EntityManager)} Handling SpawnEntity");
-            long entityId = NextEntityId();
-            IActorRef newEntity = Context.ActorOf(Props.Create<Entity>(entityId, message.Position), message.Name);
+            long entityId = NextEntityId(); //TODO: Client generating IDs temporarily.  Change this
+            //entityId = message.EntityId;
+
+            IActorRef newEntity = Context.ActorOf(Props.Create<Entity>(entityId, message.Position));
             Entities.Add(newEntity);
             EntitiesById.Add(entityId, newEntity);
 
             IActorRef regionManager = _regionManager.ResolveOne(TimeSpan.FromSeconds(1)).Result;
             Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager ActorRef {regionManager.Path.ToString()}");
             Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager {_regionManager.PathString}");
-            _regionManager.Tell(new AddEntityToRegion(entityId, newEntity, message.Position));
+
+            var user = Sender;
+            
+            _regionManager.Tell(new AddEntityToRegion(entityId, newEntity, message.Position, user));
             return newEntity;
         }
         

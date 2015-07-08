@@ -5,7 +5,7 @@
         public string GameName { get; set; }
         public CreateGame(string gameName)
         {
-            GameName = GameName;
+            GameName = gameName;
         }
     }
 }

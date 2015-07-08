@@ -5,10 +5,11 @@ using System;
 using AS.Actors.GameActors;
 using AS.Actors.UserActors;
 using AS.Actors.StatsActors;
+using AS.Actors.ClientConnection;
 
 namespace AS.TestHost
 {
-    class Program
+    public class Program
     {
         private static ActorSystem Sys;
         private static IActorRef _users;
@@ -18,6 +19,11 @@ namespace AS.TestHost
         private static IActorRef _statsGatherer;
 
         static void Main(string[] args)
+        {
+            StartServer();
+        }
+
+        public static void StartServer()
         {
             var config = ConfigurationFactory.ParseString(@"
 akka {  
@@ -52,6 +58,8 @@ akka {
 
             if (_lobby == null)
                 _lobby = Sys.ActorOf<AS.Actors.Lobby.Lobby>("lobby");
+
+            var _clientConnectionManager = Sys.ActorOf<ClientConnectionManager>("ClientConnectionManager");
 
             _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
 

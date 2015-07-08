@@ -33,13 +33,17 @@
     <Reference Include="Akka">
       <HintPath>..\packages\Akka.1.0.0\lib\net45\Akka.dll</HintPath>
     </Reference>
+    <Reference Include="Helios, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Helios.1.4.0\lib\net45\Helios.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics.Vectors, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.0.0\lib\portable-net45+win8+wpa81\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.1.0-beta-23019\lib\dotnet\System.Numerics.Vectors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -47,6 +51,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticate.cs" />
@@ -77,6 +84,7 @@
     <Compile Include="Region\UnsubscribeUserToRegion.cs" />
     <Compile Include="Region\SubscribeUserToRegion.cs" />
     <Compile Include="RoomList.cs" />
+    <Compile Include="SystemStats\GameStats.cs" />
     <Compile Include="SystemStats\GetSystemStats.cs" />
     <Compile Include="SystemStats\RefreshSystemStats.cs" />
     <Compile Include="SystemStats\RoomStats.cs" />
@@ -101,6 +109,10 @@
     <ProjectReference Include="..\AS.Interfaces\AS.Interfaces.csproj">
       <Project>{9890f6ac-c932-4443-8410-da2689853965}</Project>
       <Name>AS.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Clients\AS.Client.Messages\AS.Client.Messages\AS.Client.Messages.csproj">
+      <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
+      <Name>AS.Client.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

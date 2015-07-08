@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using AS.Common;
+using AS.Client.Core.WPF;
 
 namespace AS.Admin.ChatClient
 {

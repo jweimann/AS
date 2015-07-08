@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Numerics;
+using UnityEngine;
 using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.TestKit;
@@ -25,7 +25,7 @@ namespace AS.Actors.Tests
             var regions = Sys.ActorSelection("akka://test/user/game/RegionManager");
             System.Threading.Thread.Sleep(2000);
 
-            Debug.WriteLine($"Search Path: {regions.PathString}");
+            System.Diagnostics.Debug.WriteLine($"Search Path: {regions.PathString}");
             IActorRef regionsActor = regions.ResolveOne(TimeSpan.FromSeconds(1)).Result;
         }
 
@@ -34,10 +34,10 @@ namespace AS.Actors.Tests
         {
             Props props = Props.Create<RegionManager>(new object[] { 100.0f, 3 });
             var regionManager = ActorOfAsTestActorRef<RegionManager>(props, "RegionManager");
-            Debug.WriteLine($"Regionmanager spawned at path {regionManager.Path.ToString()}");
+            System.Diagnostics.Debug.WriteLine($"Regionmanager spawned at path {regionManager.Path.ToString()}");
 
             var regions = Sys.ActorSelection("akka://test/user/RegionManager/RootRegion");
-            Debug.WriteLine($"Search Path: {regions.PathString}");
+            System.Diagnostics.Debug.WriteLine($"Search Path: {regions.PathString}");
 
             IActorRef regionActor = regions.ResolveOne(TimeSpan.FromSeconds(1)).Result;
         }
@@ -45,9 +45,9 @@ namespace AS.Actors.Tests
         [Fact]
         public void regions_AddEntityToRegion_addsEntityToDictionary()
         {
-            Props props = Props.Create<Region>(new object[] { new Bounds(Vector3.Zero, Vector3.One * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
-            region.Tell(new AddEntityToRegion(1, TestActor, Vector3.Zero));
+            region.Tell(new AddEntityToRegion(1, TestActor, Vector3.zero, this.TestActor));
 
             var regionInternal = GetPrivate(region);
 
@@ -89,17 +89,17 @@ namespace AS.Actors.Tests
         {
             var rootRegion = GetRootRegion();
             rootRegion.Tell(new SubscribeUserToRegion(this.TestActor));
-            rootRegion.Tell(new UpdatePosition(1, Vector3.One));
+            rootRegion.Tell(new UpdatePosition(1, Vector3.one));
             var response = ExpectMsg<UpdatePosition>();
             Assert.Equal(1, response.EntityId);
-            Assert.Equal(Vector3.One, response.Position);
+            Assert.Equal(Vector3.one, response.Position);
         }
 
         //[Fact]
         //public void regions_messasgeEntities_allEntitiesRecieve()
         //{
         //    /// NOT IMPLEMENTED YET.
-        //    Props props = Props.Create<Region>(new object[] { new Bounds(Vector3.Zero, Vector3.One * 100f), 3 });
+        //    Props props = Props.Create<Region>(new object[] { new Bounds(Vector3.zero, Vector3.one * 100f), 3 });
         //    var region = ActorOfAsTestActorRef<Region>(props, "Region1");
 
         //    /*
@@ -117,7 +117,7 @@ namespace AS.Actors.Tests
         {
             for (int i = 0; i < count; i++)
             {
-                SpawnEntityAndAddToRegion(region, i + 1, Vector3.Zero);
+                SpawnEntityAndAddToRegion(region, i + 1, Vector3.zero);
             }
         }
 
@@ -141,17 +141,17 @@ namespace AS.Actors.Tests
         [Fact]
         private void entityManager_spawnEntity_noErrors()
         {
-            Props props = Props.Create<Region>(new object[] { new Bounds(Vector3.Zero, Vector3.One * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
-            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.Zero });
+            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.zero });
         }
 
         [Fact]
         private void entityManager_spawnEntityCount10_noErrors()
         {
-            Props props = Props.Create<Region>(new object[] { new Bounds(Vector3.Zero, Vector3.One * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
-            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero });
+            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
         }
 
         [Fact]
@@ -159,7 +159,7 @@ namespace AS.Actors.Tests
         {
             var region = GetRootRegion();
 
-            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.Zero });
+            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.zero });
             EntitiesInRegionList entitiesInRegion = region.Ask<EntitiesInRegionList>(new RequestEntityList()).Result;
 
             Assert.Equal(1, entitiesInRegion.Entities.Count);
@@ -170,7 +170,7 @@ namespace AS.Actors.Tests
         {
             var region = GetRootRegion(3);
 
-            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.One, Vector3.One, -Vector3.One, -Vector3.One, -Vector3.One });
+            SpawnEntitiesInRegion(region, new Vector3[] { Vector3.one, Vector3.one, -Vector3.one, -Vector3.one, -Vector3.one });
             region.Tell(new RequestEntityList());
 
             //EntitiesInRegionList expectedFromRoot = new EntitiesInRegionList(new List<IActorRef>(), "akka://test/user/RegionManager/RootRegion");
@@ -211,9 +211,9 @@ namespace AS.Actors.Tests
             Props regionManagerProps = Props.Create<RegionManager>(new object[] { regionSize, maxEntitiesPerRegion });
             ActorOfAsTestActorRef<RegionManager>(regionManagerProps, "RegionManager");
 
-            Debug.WriteLine("Getting RM");
+            System.Diagnostics.Debug.WriteLine("Getting RM");
             var regionManagerActor = ActorSelection("/user/RegionManager").ResolveOne(TimeSpan.FromSeconds(1)).Result;
-            Debug.WriteLine("Getting Region");
+            System.Diagnostics.Debug.WriteLine("Getting Region");
             var region = ActorSelection("/user/RegionManager/RootRegion").ResolveOne(TimeSpan.FromSeconds(1)).Result;
             return region;
         }

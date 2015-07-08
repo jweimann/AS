@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Numerics;
+using UnityEngine;
 using Akka.Actor;
 using Akka.TestKit;
 using AS.Actors.UserActors;
@@ -15,6 +15,13 @@ namespace AS.Actors.Tests
 {
     public class UserTests : ASTestBase
     {
+        [Fact]
+        public void what_im_doing_next()
+        {
+            // Fix the WPF client performance.  Keeps hanging with only 10msg/s.  UI update is disabled and still hangs..
+            Assert.False(true);
+        }
+
         [Fact]
         public void user_createGame_createsGame()
         {
@@ -36,7 +43,7 @@ namespace AS.Actors.Tests
         {
             IActorRef game;
             var user = CreateUserAndGame(out game);
-            user.Tell(new SpawnEntity(1, "TestEntity", Vector3.Zero));
+            user.Tell(new SpawnEntity(1, "TestEntity", Vector3.zero));
 
             ActorSelection rootRegionSelection = new Akka.Actor.ActorSelection(game, "RegionManager/RootRegion");
             IActorRef rootRegion = rootRegionSelection.ResolveOne(TimeSpan.FromSeconds(1)).Result;
@@ -45,7 +52,7 @@ namespace AS.Actors.Tests
 
             rootRegion.Tell(new RequestEntityList());
             EntitiesInRegionList response = ExpectMsg<EntitiesInRegionList>();
-            Debug.WriteLine($"Response Entities: {response.Entities.Count}");
+            System.Diagnostics.Debug.WriteLine($"Response Entities: {response.Entities.Count}");
 
             Assert.Equal(1, response.Entities.Count);
         }

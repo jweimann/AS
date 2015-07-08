@@ -1,6 +1,4 @@
-﻿using Akka.Actor;
-
-namespace AkkaHelpers
+﻿namespace AkkaHelpers
 {
     /// <summary>
     /// Meta-data class. Nested/child actors can build path 

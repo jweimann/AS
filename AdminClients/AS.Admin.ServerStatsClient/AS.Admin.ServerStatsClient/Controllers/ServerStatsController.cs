@@ -19,6 +19,7 @@ namespace AS.Admin.ServerStatsClient.Controllers
  
             Receive<SystemStats>(message => {
                 _viewModel.RoomCount = message.RoomCount;
+                _viewModel.GameCount = message.GameCount;
             });
 
             _serverSystemStatsActor = Context.System.ActorSelection("akka.tcp://as@localhost:8081/user/StatsGatherer");

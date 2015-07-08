@@ -1,4 +1,6 @@
-﻿namespace AS.Admin.ChatClient
+﻿using AS.Client.Core.WPF;
+
+namespace AS.Admin.ChatClient
 {
     public class MessageLoggerViewModel : ViewModelBase
     {

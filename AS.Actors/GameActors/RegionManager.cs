@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Numerics;
+using UnityEngine;
 using Akka.Actor;
 using AS.Common;
 using AS.Messages.Entities;
@@ -16,14 +16,14 @@ namespace AS.Actors
             _size = size;
             _entitiesPerRegion = entitiesPerRegion;
 
-            Debug.WriteLine($"RegionManager: {Self.Path.ToString()}");
-            Props rootRegionProps = Props.Create<Region>(new object[] { new Bounds(Vector3.Zero, Vector3.One * _size), _entitiesPerRegion });
+            System.Diagnostics.Debug.WriteLine($"RegionManager: {Self.Path.ToString()}");
+            Props rootRegionProps = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * _size), _entitiesPerRegion });
             _rootRegion = Context.ActorOf(rootRegionProps, "RootRegion");
-            Debug.WriteLine($"RootRegion: {_rootRegion.Path.ToSerializationFormat()}");
+            System.Diagnostics.Debug.WriteLine($"RootRegion: {_rootRegion.Path.ToSerializationFormat()}");
 
             Receive<SpawnEntity>(message =>
             {
-                Debug.WriteLine($"Failed to add entity to a region.  EntityId: {message.EntityId}");
+                System.Diagnostics.Debug.WriteLine($"Failed to add entity to a region.  EntityId: {message.EntityId}");
             });
 
             ReceiveAny(message => _rootRegion.Tell(message));

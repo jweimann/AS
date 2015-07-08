@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AS.Interfaces
 {
-    public interface IConnection
+    public interface IASConnection
     {
     }
 }

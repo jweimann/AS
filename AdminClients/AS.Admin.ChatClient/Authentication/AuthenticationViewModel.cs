@@ -1,4 +1,6 @@
-﻿namespace AS.Admin.ChatClient.Authentication
+﻿using AS.Client.Core.WPF;
+
+namespace AS.Admin.ChatClient.Authentication
 {
     public class AuthenticationViewModel : ViewModelBase
     {

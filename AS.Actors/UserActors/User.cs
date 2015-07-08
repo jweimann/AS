@@ -4,6 +4,7 @@ using System.Diagnostics;
 using AS.Messages.Game;
 using AS.Messages.User;
 using AS.Messages.Entities;
+using Helios.Net;
 
 namespace AS.Actors.UserActors
 {
@@ -19,35 +20,46 @@ namespace AS.Actors.UserActors
 
         public IStash Stash { get; set; }
 
-        //public User(IActorRef clientConnectionManager)
         public User(IActorRef testActor)
         {
             Debug.WriteLine("User Constructor " + Self.Path.ToString());
-            
-            Props props = Props.Create<UserConnection>(new object[] { testActor }); //NOTE this should not be null :)
+
+            Props props = Props.Create<ActorUserConnection>(new object[] { testActor }); //NOTE this should not be null :)
+            Initialize(props);
+
+            testActor.Tell(new UserCreated(Self, _userConnection));
+        }
+
+        public User(IConnection connection)
+        {
+            Debug.WriteLine("User Constructor " + Self.Path.ToString());
+
+            Props props = Props.Create<TcpUserConnection>(new object[] { connection }); //NOTE this should not be null :)
+            Initialize(props);
+
+            _userConnection.Tell(new UserCreated(Self, _userConnection));
+        }
+
+        private void Initialize(Props props)
+        {
             _userConnection = Context.ActorOf(props, "UserConnection");
-            
+
             Debug.WriteLine("UserConnection Created " + _userConnection.Path.ToString());
 
             Receive<Authenticate>(msg =>
-                {
-                    _username = msg.Name;
-                    Become(Authenticated);
-                    _userConnection.Tell(new AuthenticateResult(true));
-                });
+            {
+                _username = msg.Name;
+                Become(Authenticated);
+                _userConnection.Tell(new AuthenticateResult(true));
+            });
             Receive<string>(words => Sender.Tell("Not Authenticated"));
-            ReceiveAny(msg => 
-                {
-                    Stash.Stash();
-                    Sender.Tell(new NotAuthenticated());
-                });
-            
+            ReceiveAny(msg =>
+            {
+                Stash.Stash();
+                Sender.Tell(new NotAuthenticated());
+            });
+
             Debug.WriteLine("Left Constructor " + Self.Path.ToString());
-
-            
-
-            testActor.Tell(new UserCreated(Self, _userConnection));
-            //Debug.WriteLine("Sent user to " + clientConnectionManager.Path.ToString());
         }
 
         private void Authenticated()
@@ -84,6 +96,17 @@ namespace AS.Actors.UserActors
                 var entityManagerPath = _game.Path + "/" + "EntityManager";
                 Debug.WriteLine($"Searching for EntityManager: {entityManagerPath.ToString()}");
                 _entityManager = Context.System.ActorSelection(entityManagerPath);
+                ForwardToConnections(message);
+            });
+            Receive<StartGame>(message => _game.Tell(message));
+
+            Receive<SetPosition>(message =>
+            {
+                _entityManager.Tell(message);
+            });
+
+            Receive<UpdatePosition>(message =>
+            {
                 ForwardToConnections(message);
             });
         }

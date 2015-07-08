@@ -1,14 +1,25 @@
 ﻿using Akka.Actor;
+using AS.Interfaces;
+using AS.Client.Messages.User;
+
 namespace AS.Messages
 {
-    public class UserCreated
+    public class UserCreated : IMapToClientCommand
     {
         public IActorRef UserActor { get; private set; }
         public IActorRef UserConnectionActor { get; private set; }
+
         public UserCreated(IActorRef userActor, IActorRef userConnectionActor)
         {
-            this.UserActor = userActor;
-            this.UserConnectionActor = userConnectionActor;
+            UserActor = userActor;
+            UserConnectionActor = userConnectionActor;
+        }
+
+        public object GetClientCommand()
+        {
+            return new ClientUserCreated(0);
         }
     }
+
+   
 }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Akka.Actor;
 using AS.Messages.Game;
+using AS.Messages.SystemStats;
 
 namespace AS.Actors.GameActors
 {
@@ -13,15 +14,21 @@ namespace AS.Actors.GameActors
         {
             Debug.WriteLine($"GameManager Spawned: {Self.Path.ToString()}");
             Receive<CreateGame>(msg => CreateNewGame(msg));
+            Receive<GetSystemStats>(message =>
+            {
+                foreach (var child in Context.GetChildren())
+                    child.Tell(message, Sender);
+            });
         }
 
         private void CreateNewGame(CreateGame msg)
         {
-            string gameName = "game1";
-            IActorRef game = Context.ActorOf(Props.Create<Game>(new object[] { msg }), gameName);
+            //string gameName = "game1";
+            IActorRef game = Context.ActorOf(Props.Create<Game>(new object[] { msg }));//, gameName);
             _games.Add(game);
 
-            Sender.Tell(new JoinGameSuccess(game));
+            game.Tell(new JoinGame(Sender), Sender);
+            //Sender.Tell(new JoinGameSuccess(game, msg.GameName));
         }
     }
 }

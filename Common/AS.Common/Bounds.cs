@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using UnityEngine;
 
 namespace AS.Common
 {
@@ -45,9 +45,9 @@ namespace AS.Common
         public Bounds[] Split()
         {
             Bounds[] bounds = new Bounds[2];
-            var x = _center.X - (_extents.X * LongestAxis(_extents).X * 0.5f);
-            var y = _center.Y - (_extents.Y * LongestAxis(_extents).Y * 0.5f);
-            var z = _center.Z - (_extents.Z * LongestAxis(_extents).Z * 0.5f);
+            var x = _center.x - (_extents.x * LongestAxis(_extents).x * 0.5f);
+            var y = _center.y - (_extents.y * LongestAxis(_extents).y * 0.5f);
+            var z = _center.z - (_extents.z * LongestAxis(_extents).z * 0.5f);
             bounds[0] = new Bounds(new Vector3(x, y, z), _extents / 2f);
             bounds[1] = new Bounds(new Vector3(-x, -y, -z), _extents / 2f);
             return bounds;
@@ -55,24 +55,24 @@ namespace AS.Common
 
         private Vector3 LongestAxis(Vector3 source)
         {
-            if (source.X > source.Y && source.X > source.Z) return Vector3.UnitX;
-            if (source.Y > source.X && source.Y > source.Z) return Vector3.UnitY;
-            if (source.Z > source.X && source.Z > source.Y) return Vector3.UnitZ;
-            return Vector3.UnitX;
+            if (source.x > source.y && source.x > source.z) return new Vector3(1, 0, 0);
+            if (source.y > source.x && source.y > source.z) return new Vector3(0, 1, 0);
+            if (source.z > source.x && source.z > source.y) return new Vector3(0, 0, 1);
+            return new Vector3(1, 0, 0);
         }
 
         public override string ToString()
         {
-            return $"{_center.X}_{_center.Y}_{_center.Z}";
+            return $"{_center.x}_{_center.y}_{_center.z}";
         }
 
         public static bool GreaterOrEqual(Vector3 c1, Vector3 c2)
         {
-            return c1.X >= c2.X && c1.Y >= c2.Y && c1.Z >= c2.Z;
+            return c1.x >= c2.x && c1.y >= c2.y && c1.z >= c2.z;
         }
         public static bool LessOrEqual(Vector3 c1, Vector3 c2)
         {
-            return c1.X <= c2.X && c1.Y <= c2.Y && c1.Z <= c2.Z;
+            return c1.x <= c2.x && c1.y <= c2.y && c1.z <= c2.z;
         }
     }
 }

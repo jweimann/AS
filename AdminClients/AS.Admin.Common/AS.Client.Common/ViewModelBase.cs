@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel;
 
-namespace AS.Admin.ChatClient
+namespace AS.Client.Core.WPF
 {
     public class ViewModelBase : ObjectBase, IChangeTracking
     {

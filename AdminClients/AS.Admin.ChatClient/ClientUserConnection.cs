@@ -5,6 +5,7 @@ using System;
 using System.Windows;
 using AS.Admin.ChatClient.Authentication;
 using AS.Messages.SystemStats;
+using AS.Admin.ChatClient.Lobby;
 
 namespace AS.Admin.ChatClient
 {
@@ -15,6 +16,7 @@ namespace AS.Admin.ChatClient
         private ActorSelection _mockClientConnectionManager;
         private RoomController _roomController;
         private LobbyController _lobbyController;
+        private ClientGameController _gameController;
         private AuthenticationController _authenticationController;
         private MessageLoggerViewModel _messageLoggerViewModel;
         private ActorSelection _statsGatherer;
@@ -28,6 +30,7 @@ namespace AS.Admin.ChatClient
             _authenticationController = new AuthenticationController(Context);
             _lobbyController = new LobbyController(Context, ref lobbyViewModel);
             _roomController = new RoomController(Context, ref roomViewModel);
+            _gameController = new ClientGameController(Context);
 
             OnRoomListReceived += roomList => MessageBox.Show("RoomList");
             //_clientLobby = clientLobbyController.ClientLobby;
@@ -53,6 +56,7 @@ namespace AS.Admin.ChatClient
             {
                 _lobbyController.SetConnection(((UserCreated)message).UserConnectionActor);
                 _roomController.SetConnection(((UserCreated)message).UserConnectionActor);
+                _gameController.SetConnection(((UserCreated)message).UserConnectionActor);
             }
             foreach (var child in Context.GetChildren())
                 child.Tell(message);

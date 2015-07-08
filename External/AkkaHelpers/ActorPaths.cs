@@ -1,6 +1,4 @@
-﻿using Akka.Actor;
-
-namespace AkkaHelpers
+﻿namespace AkkaHelpers
 {
     /// <summary>
     /// Static helper class used to define paths to fixed-name actors
