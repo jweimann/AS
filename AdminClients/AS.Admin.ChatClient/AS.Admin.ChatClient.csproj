@@ -190,6 +190,14 @@
       <Project>{1162083b-336b-4699-944f-14c63d4c04a3}</Project>
       <Name>AS.Client.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Clients\AS.Client.Messages\AS.Client.Messages\AS.Client.Messages.csproj">
+      <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
+      <Name>AS.Client.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\AS.Common\AS.Common.csproj">
       <Project>{e41ba798-4ada-4d85-9c3e-2221643bfbb6}</Project>
       <Name>AS.Common</Name>

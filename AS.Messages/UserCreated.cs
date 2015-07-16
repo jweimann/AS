@@ -15,9 +15,9 @@ namespace AS.Messages
             UserConnectionActor = userConnectionActor;
         }
 
-        public object GetClientCommand()
+        public object GetClientCommand(int entityId)
         {
-            return new ClientUserCreated(0);
+            return new ClientUserCreated(entityId);
         }
     }
 

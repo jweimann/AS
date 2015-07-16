@@ -13,7 +13,8 @@ namespace AS.Client.Unity3D
             while (!TempConnected)
                 System.Threading.Thread.Sleep(20);
 
-            SendMessage(new ClientConnectRequest("jweimann", "nopass"));
+            //SendMessage(new ClientConnectRequest("jweimann", "nopass")); // Authenticate message is used instead..
+
         }
     }
 }

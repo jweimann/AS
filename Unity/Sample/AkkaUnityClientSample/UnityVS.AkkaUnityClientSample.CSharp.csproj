@@ -63,6 +63,12 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="AS.Client.Helios">
+      <HintPath>Assets\Plugins\AS.Client.Helios.dll</HintPath>
+    </Reference>
+    <Reference Include="Helios.NET35">
+      <HintPath>Assets\Plugins\Helios.NET35.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>Assets\Plugins\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -75,20 +81,26 @@
     <Reference Include="Mono.Cecil.Pdb">
       <HintPath>Assets\Plugins\Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
-    <Reference Include="AS.Client.Helios">
-      <HintPath>Assets\Plugins\AS.Client.Helios.dll</HintPath>
-    </Reference>
     <Reference Include="System.Threading">
       <HintPath>Assets\Plugins\System.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="Helios.NET35">
-      <HintPath>Assets\Plugins\Helios.NET35.dll</HintPath>
+    <Reference Include="FullInspector-Core">
+      <HintPath>Assets\FullInspector2\Core\FullInspector-Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Engine\AkkaHeliosConnector.cs" />
+    <Compile Include="Assets\FullInspector2_Generated\BaseBehavior.cs" />
+    <Compile Include="Assets\FullInspector2_Generated\BaseNetworkBehavior.cs" />
+    <Compile Include="Assets\FullInspector2_Generated\BaseScriptableObject.cs" />
+    <Compile Include="Assets\FullInspector2_Generated\SharedInstance.cs" />
+    <Compile Include="Assets\FullInspector2_Generated\fiLoadedSerializers.cs" />
     <Compile Include="Assets\Injection\InjectionTest.cs" />
     <Compile Include="Assets\Injection\NRTime.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\FullInspector2\Core\Editor\FullInspector-Editor.xml" />
+    <None Include="Assets\FullInspector2\Core\FullInspector-Core.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

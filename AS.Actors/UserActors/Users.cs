@@ -30,8 +30,8 @@ namespace AS.Actors.UserActors
             else
             {
                 //Debug.WriteLine("Sender/MockConnection: " + mockActorConnection.TestActor.Path.ToString());
-
-                Props props = Props.Create<User>(message.Connection);
+                message.Connection.Send(Helios.Net.NetworkData.Empty);
+                Props props = Props.Create<User>(message);
                 var user = Context.System.ActorOf(props);
                 Debug.WriteLine("User Created " + user.Path.ToString());
             }

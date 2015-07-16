@@ -7,6 +7,7 @@ using AS.Messages.Game;
 using System;
 using AS.Messages;
 using AS.Messages.SystemStats;
+using AS.Client.Messages.Game;
 
 namespace AS.Actors.GameActors
 {
@@ -34,7 +35,7 @@ namespace AS.Actors.GameActors
         public Game()
         {
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 300);
+            _regionsProps = Props.Create<RegionManager>(100.0f, 300000);
             Become(Initializing);
         }
 
@@ -42,7 +43,7 @@ namespace AS.Actors.GameActors
         {
             _name = createGameMessage.GameName;
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 300);
+            _regionsProps = Props.Create<RegionManager>(100.0f, 300000);
             Become(Initializing);
         }
 

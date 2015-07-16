@@ -1,8 +1,9 @@
 ﻿using Akka.Actor;
+using AS.Client.Messages.Entities;
 using AS.Messages.Entities;
 using AS.Messages.Region;
 using System;
-using UnityEngine;
+using AS.Common;
 using Xunit;
 
 namespace AS.Actors.Tests

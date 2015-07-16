@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
-using System.Threading.Tasks;
 using Akka.Actor;
 using AS.Common;
 using AS.Messages.Game;
 using AS.Messages.Entities;
 using System;
 using AS.Messages.Region;
+using AS.Client.Messages.Entities;
 
 namespace AS.Actors
 {
@@ -16,15 +15,15 @@ namespace AS.Actors
 
     public class Region : ReceiveActor
     {
-        private UnityEngine.Bounds _bounds;
+        private Common.Bounds _bounds;
         private HashSet<IActorRef> _subscribedUsers = new HashSet<IActorRef>();
         private Dictionary<long, IActorRef> _entities = new Dictionary<long, IActorRef>();
-        private Dictionary<long, Vector3> _entityLocations = new Dictionary<long, Vector3>();
+        private Dictionary<long, Common.Vector3> _entityLocations = new Dictionary<long, Common.Vector3>();
         private int _maxEntities;
-        private Dictionary<UnityEngine.Bounds, IActorRef> _children = new Dictionary<UnityEngine.Bounds, IActorRef>();
+        private Dictionary<Common.Bounds, IActorRef> _children = new Dictionary<Common.Bounds, IActorRef>();
         private bool HasChildren {  get { return _children.Count > 0; } }
 
-        public Region(UnityEngine.Bounds bounds, int maxEntities)
+        public Region(Common.Bounds bounds, int maxEntities)
         {
             System.Diagnostics.Debug.WriteLine($"Region Spawned {Self.Path.ToString()}");
             _maxEntities = maxEntities;
@@ -32,7 +31,7 @@ namespace AS.Actors
             Receive<AddEntityToRegion>(message => AddEntity(message));
             Receive<UpdatePosition>(message =>
             {
-                _entityLocations[message.EntityId] = message.Position;
+                _entityLocations[message.EntityId] = new Common.Vector3(message.Position);
                 MessagePlayers(message);
             });
             Receive<RequestEntityList>(message =>
@@ -102,7 +101,7 @@ namespace AS.Actors
             throw new NotImplementedException("Disabled this when switching to UnityEngine Bounds and Vector3D because the UnityEngine bounds doesn't have .Split() - Add or fix this.");
 
             /*
-            UnityEngine.Bounds[] splitBounds = _bounds.Split();
+            Common.Bounds[] splitBounds = _bounds.Split();
             for (int i = 0; i < splitBounds.Length; i++)
             {
                 Props props = Props.Create<Region>(new object[] { splitBounds[i], _maxEntities });
@@ -127,7 +126,7 @@ namespace AS.Actors
             */
         }
 
-        private IActorRef GetRegion(Vector3 position)
+        private IActorRef GetRegion(Common.Vector3 position)
         {
             foreach (var key in _children.Keys)
             {

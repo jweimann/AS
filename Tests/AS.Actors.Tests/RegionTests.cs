@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
-using UnityEngine;
-using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.TestKit;
 using AS.Common;
@@ -12,6 +9,7 @@ using AS.Messages.Game;
 using AS.Messages.Region;
 using Xunit;
 using AS.Actors.GameActors;
+using AS.Client.Messages.Entities;
 
 namespace AS.Actors.Tests
 {
@@ -45,7 +43,7 @@ namespace AS.Actors.Tests
         [Fact]
         public void regions_AddEntityToRegion_addsEntityToDictionary()
         {
-            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new Common.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
             region.Tell(new AddEntityToRegion(1, TestActor, Vector3.zero, this.TestActor));
 
@@ -89,10 +87,10 @@ namespace AS.Actors.Tests
         {
             var rootRegion = GetRootRegion();
             rootRegion.Tell(new SubscribeUserToRegion(this.TestActor));
-            rootRegion.Tell(new UpdatePosition(1, Vector3.one));
+            rootRegion.Tell(new UpdatePosition(1, Common.Vector3.one));
             var response = ExpectMsg<UpdatePosition>();
             Assert.Equal(1, response.EntityId);
-            Assert.Equal(Vector3.one, response.Position);
+            Assert.Equal(Common.Vector3.one, response.Position);
         }
 
         //[Fact]
@@ -135,13 +133,13 @@ namespace AS.Actors.Tests
                 _entityManager = ActorOfAsTestActorRef<EntityManager>("EntityManager");
 
             string name = "entity" + id;
-            _entityManager.Tell(new SpawnEntity(id, name, position));
+            _entityManager.Tell(new SpawnEntity(id, name, position, 1));
         }
 
         [Fact]
         private void entityManager_spawnEntity_noErrors()
         {
-            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new Common.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
             SpawnEntitiesInRegion(region, new Vector3[] { Vector3.zero });
         }
@@ -149,7 +147,7 @@ namespace AS.Actors.Tests
         [Fact]
         private void entityManager_spawnEntityCount10_noErrors()
         {
-            Props props = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
+            Props props = Props.Create<Region>(new object[] { new Common.Bounds(Vector3.zero, Vector3.one * 100f), 3 });
             var region = ActorOfAsTestActorRef<Region>(props, "Region1");
             SpawnEntitiesInRegion(region, new Vector3[] { Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero, Vector3.zero });
         }

@@ -5,6 +5,7 @@ using Akka.Actor;
 using AS.Actors.GameActors;
 using AS.Messages.Game;
 using Xunit;
+using AS.Client.Messages.Game;
 
 namespace AS.Actors.Tests
 {

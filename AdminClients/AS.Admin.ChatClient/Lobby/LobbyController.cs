@@ -11,6 +11,7 @@ using AS.Messages.Game;
 using AS.Admin.ChatClient.Views;
 using AS.Admin.ChatClient.ViewModels;
 using System.Windows;
+using AS.Client.Messages.Game;
 
 namespace AS.Admin.ChatClient
 {

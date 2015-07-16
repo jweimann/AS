@@ -2,9 +2,14 @@
 using AS.Messages;
 using System.Diagnostics;
 using AS.Messages.Game;
-using AS.Messages.User;
 using AS.Messages.Entities;
 using Helios.Net;
+using AS.Client.Messages;
+using AS.Client.Messages.Errors;
+using AS.Client.Messages.ClientRequests;
+using AS.Client.Messages.Game;
+using AS.Client.Messages.Entities;
+using AS.Common;
 
 namespace AS.Actors.UserActors
 {
@@ -30,11 +35,11 @@ namespace AS.Actors.UserActors
             testActor.Tell(new UserCreated(Self, _userConnection));
         }
 
-        public User(IConnection connection)
+        public User(ConnectionEstablished connectionEstablishedMessage)
         {
             Debug.WriteLine("User Constructor " + Self.Path.ToString());
-
-            Props props = Props.Create<TcpUserConnection>(new object[] { connection }); //NOTE this should not be null :)
+            //connection.Send(NetworkData.Empty);
+            Props props = Props.Create<TcpUserConnection>(new object[] { connectionEstablishedMessage }); //NOTE this should not be null :)
             Initialize(props);
 
             _userConnection.Tell(new UserCreated(Self, _userConnection));
@@ -46,12 +51,21 @@ namespace AS.Actors.UserActors
 
             Debug.WriteLine("UserConnection Created " + _userConnection.Path.ToString());
 
+            /// Old message from actors, not sure how to handle this yet need the client version.
             Receive<Authenticate>(msg =>
             {
                 _username = msg.Name;
                 Become(Authenticated);
                 _userConnection.Tell(new AuthenticateResult(true));
             });
+
+            Receive<ClientAuthenticateRequest>(msg =>
+            {
+                _username = msg.Username;
+                Become(Authenticated);
+                _userConnection.Tell(new AuthenticateResult(true));
+            });
+
             Receive<string>(words => Sender.Tell("Not Authenticated"));
             ReceiveAny(msg =>
             {
@@ -70,35 +84,34 @@ namespace AS.Actors.UserActors
 
             ReceiveChatMessages(lobby);
 
-            ReceiveGameMessages();
+            ReceivePreGameMessages();
 
             ReceiveAny(message =>
             {
-                ForwardToConnections(message);
+                if (message is IClientMessage == false)
+                    ForwardToConnections(message);
+                else
+                    System.Console.WriteLine($"Unhandled message while in authenticated state.  Type: {message.GetType().ToString()}");
             });
 
+            Stash.UnstashAll();
             //TODO: Handle CreateGame (message not created), startgame, joingame, etc.
             // Create new high level actor to handle game creation/search/etc.
             // ex. /user/GameManager/GameSpawner/Game1234
             // GameName match room name??
         }
 
-        private void ReceiveGameMessages()
+        private void RecieveInGameMessages()
         {
-            Receive<CreateGame>(message => _gamesRoot.Tell(message));
             Receive<SpawnEntity>(message =>
             {
                 _entityManager.Tell(message);
             });
-            Receive<JoinGameSuccess>(message =>
+
+            Receive<ClientSpawnEntityRequest>(message =>
             {
-                _game = message.Game;
-                var entityManagerPath = _game.Path + "/" + "EntityManager";
-                Debug.WriteLine($"Searching for EntityManager: {entityManagerPath.ToString()}");
-                _entityManager = Context.System.ActorSelection(entityManagerPath);
-                ForwardToConnections(message);
+                _entityManager.Tell(new SpawnEntity(0, message.EntityType, Vector3.zero, message.Count));
             });
-            Receive<StartGame>(message => _game.Tell(message));
 
             Receive<SetPosition>(message =>
             {
@@ -109,6 +122,40 @@ namespace AS.Actors.UserActors
             {
                 ForwardToConnections(message);
             });
+        }
+
+        private void ReceivePreGameMessages()
+        {
+            // Some of these messages are for in-game and some are out of game
+            // Should split this into 2 behaviors
+            Receive<CreateGame>(message => 
+                _gamesRoot.Tell(message)
+            );
+
+            Receive<JoinGameSuccess>(message =>
+            {
+                _game = message.Game;
+                var entityManagerPath = _game.Path + "/" + "EntityManager";
+                Debug.WriteLine($"Searching for EntityManager: {entityManagerPath.ToString()}");
+                _entityManager = Context.System.ActorSelection(entityManagerPath);
+                ForwardToConnections(message);
+            });
+
+            Receive<StartGame>(message =>
+            {
+                if (_game == null)
+                    Sender.Tell("Not in a game, nothing to start...");
+                else
+                    _game.Tell(message);
+            });
+
+            Receive<GameStarted>(message => {
+                Become(RecieveInGameMessages);
+                ForwardToConnections(message);
+            });
+
+            // Can't do this because we use receiveAny outside this call to foward everything else to the client...
+            //ReceiveAny(message => Sender.Tell($"{message.GetType().ToString()} not handled.  In PreGame State."));
         }
 
         private void ReceiveChatMessages(ActorSelection lobby)

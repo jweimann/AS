@@ -1,18 +1,18 @@
 ﻿using System;
-using UnityEngine;
 using Akka.Actor;
-using AS.Messages.Game;
+using AS.Common;
 using AS.Messages.Region;
+using AS.Client.Messages.Entities;
 
 namespace AS.Messages.Entities
 {
     public class Entity : ReceiveActor
     {
-        private long _entityId;
-        private Vector3 _position;
+        private int _entityId;
+        private Common.Vector3 _position;
         private IActorRef _region;
 
-        public Entity(long entityId, Vector3 position)
+        public Entity(int entityId, Common.Vector3 position)
         {
             _entityId = entityId;
             _position = position;

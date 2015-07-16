@@ -43,7 +43,7 @@ namespace AS.Actors.Tests
         {
             IActorRef game;
             var user = CreateUserAndGame(out game);
-            user.Tell(new SpawnEntity(1, "TestEntity", Vector3.zero));
+            user.Tell(new SpawnEntity(1, "TestEntity", AS.Common.Vector3.zero, 1));
 
             ActorSelection rootRegionSelection = new Akka.Actor.ActorSelection(game, "RegionManager/RootRegion");
             IActorRef rootRegion = rootRegionSelection.ResolveOne(TimeSpan.FromSeconds(1)).Result;

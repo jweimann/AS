@@ -7,6 +7,8 @@ using AS.Messages.Entities;
 using AS.Client.Core;
 using System.Linq;
 using AS.Client.Core.WPF;
+using AS.Client.Messages.Game;
+using AS.Client.Messages.Entities;
 
 namespace AS.Admin.ChatClient.Game
 {

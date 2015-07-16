@@ -12,7 +12,7 @@ namespace AS.Actors
     public class EntityManager : ReceiveActor
     {
         private ActorSelection _userActors;
-        private int _nextEntityId;
+        private int _nextEntityId = 1000;
         private ActorSelection _regionManager;
 
         private List<IActorRef> Entities { get; set; } = new List<IActorRef>();
@@ -36,7 +36,8 @@ namespace AS.Actors
 
         private void HandleSpawnEntityMessage(SpawnEntity message)
         {
-            IActorRef entity = SpawnEntity(message);
+            for(int i = 0; i < message.Count; i++)
+                SpawnEntity(message);
 
             //SpawnEntity innerMessage = new SpawnEntity(message.EntityId, message.Name, message.Position);
             //Sender.Tell(new ForwardToPlayers(innerMessage));
@@ -44,8 +45,8 @@ namespace AS.Actors
 
         private IActorRef SpawnEntity(SpawnEntity message)
         {
-            Debug.WriteLine($"{nameof(EntityManager)} Handling SpawnEntity");
-            long entityId = NextEntityId(); //TODO: Client generating IDs temporarily.  Change this
+            //Debug.WriteLine($"{nameof(EntityManager)} Handling SpawnEntity");
+            int entityId = NextEntityId(); //TODO: Client generating IDs temporarily.  Change this
             //entityId = message.EntityId;
 
             IActorRef newEntity = Context.ActorOf(Props.Create<Entity>(entityId, message.Position));
@@ -53,8 +54,8 @@ namespace AS.Actors
             EntitiesById.Add(entityId, newEntity);
 
             IActorRef regionManager = _regionManager.ResolveOne(TimeSpan.FromSeconds(1)).Result;
-            Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager ActorRef {regionManager.Path.ToString()}");
-            Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager {_regionManager.PathString}");
+            //Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager ActorRef {regionManager.Path.ToString()}");
+            //Debug.WriteLine($"{Self.Path.ToString()} messaging regionManager {_regionManager.PathString}");
 
             var user = Sender;
             
@@ -62,7 +63,7 @@ namespace AS.Actors
             return newEntity;
         }
         
-        private long NextEntityId()
+        private int NextEntityId()
         {
             return _nextEntityId++;
         }

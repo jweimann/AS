@@ -36,12 +36,14 @@ namespace AS.Actors.ClientConnection
                 new ServerBootstrap()
                     .WorkerThreads(2)
                     .Executor(executor)
-                    .SetTransport(TransportType.Tcp)
+                    .SetTransport(TransportType.Udp)
                     .Build();
             var server = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(host).WithPort(port));
             server.OnConnection += (address, connection) =>
             {
                 Console.WriteLine("Connected: {0}", address);
+                //_users.Tell(new ConnectionEstablished(connection));
+                
                 connection.BeginReceive(ReceiveBytes);
             };
             server.OnDisconnection += (reason, address) =>
@@ -57,18 +59,21 @@ namespace AS.Actors.ClientConnection
 
         public void ReceiveBytes(NetworkData data, IConnection channel)
         {
+            //channel.Send(new NetworkData() { Buffer = new byte[] { 1 }, Length = 1, RemoteHost = data.RemoteHost });
+            channel.StopReceive();
             BinarySerializer serializer = new BinarySerializer();
             object request = serializer.Deserialize<object>(data.Buffer);
             Console.WriteLine(request);
             if (request is ClientConnectRequest)
             {
-                HandleClientConnectionRequest((ClientConnectRequest)request, channel);
+                HandleClientConnectionRequest((ClientConnectRequest)request, channel, data.RemoteHost);
             }
+            channel.Send(data);
         }
 
-        private void HandleClientConnectionRequest(ClientConnectRequest request, IConnection channel)
+        private void HandleClientConnectionRequest(ClientConnectRequest request, IConnection channel, INode remoteHost)
         {
-            _users.Tell(new ConnectionEstablished(channel));
+            _users.Tell(new ConnectionEstablished(channel, remoteHost));
         }
 
         public static void Receive(NetworkData data, IConnection channel)

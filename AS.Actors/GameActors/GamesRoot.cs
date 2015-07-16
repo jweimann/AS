@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Akka.Actor;
 using AS.Messages.Game;
+using AS.Client.Messages.Game;
 
 namespace AS.Actors.GameActors
 {

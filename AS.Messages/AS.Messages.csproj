@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticate.cs" />
-    <Compile Include="AuthenticateResult.cs" />
     <Compile Include="Chat.cs" />
     <Compile Include="ConnectionEstablished.cs" />
     <Compile Include="CreateTrackedEntity.cs" />
@@ -68,15 +67,11 @@
     <Compile Include="Entities\SpawnEntity.cs" />
     <Compile Include="Entities\SetPosition.cs" />
     <Compile Include="Entities\TellPosition.cs" />
-    <Compile Include="Entities\UpdatePosition.cs" />
     <Compile Include="Game\AddEntityToRegion.cs" />
-    <Compile Include="Game\CreateGame.cs" />
     <Compile Include="Game\ForwardToPlayers.cs" />
-    <Compile Include="Game\GameStarted.cs" />
     <Compile Include="Game\GetGameState.cs" />
     <Compile Include="Game\JoinGame.cs" />
     <Compile Include="Game\JoinGameSuccess.cs" />
-    <Compile Include="Game\StartGame.cs" />
     <Compile Include="GetRooms.cs" />
     <Compile Include="Region\EntitiesInRegionList.cs" />
     <Compile Include="Region\JoinRegionSuccess.cs" />
@@ -99,7 +94,6 @@
     <Compile Include="UserJoinedRoom.cs" />
     <Compile Include="UserLeftRoom.cs" />
     <Compile Include="UserList.cs" />
-    <Compile Include="User\NotAuthenticated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
@@ -114,6 +108,13 @@
       <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
       <Name>AS.Client.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="User\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

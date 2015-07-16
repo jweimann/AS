@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace AS.Client.Messages.Lobby
 {
+    /// <summary>
+    /// Not sure this is needed, think i'm just using authenticate request instead.
+    /// </summary>
     [Serializable]
     public class ClientConnectRequest
     {

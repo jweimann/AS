@@ -4,9 +4,9 @@ namespace AS.Messages.Entities
 {
     public class TellPosition
     {
-        public Vector3 Position { get; private set; }
+        public AS.Common.Vector3 Position { get; private set; }
 
-        public TellPosition(Vector3 position)
+        public TellPosition(AS.Common.Vector3 position)
         {
             Position = position;
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using AS.Common;
 using Akka.Actor;
 using AS.Actors.GameActors;
 using AS.Messages;
@@ -8,6 +8,7 @@ using AS.Messages.Entities;
 using AS.Messages.Game;
 using AS.MockActors;
 using Xunit;
+using AS.Client.Messages.Game;
 
 namespace AS.Actors.Tests
 {
@@ -72,7 +73,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_addsEntity()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero));
+            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero, 1));
 
             Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject privBase = 
                 new Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject(testGameActor.UnderlyingActor, new
@@ -85,7 +86,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_populatesEntitiesByIdDictionary()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero));
+            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero, 1));
 
             //PrivateObject privBase = new PrivateObject(testGameActor.UnderlyingActor, new PrivateType(typeof(EntityManager)));
 

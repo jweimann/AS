@@ -1,10 +1,9 @@
-﻿using System;
-using Akka.Actor;
+﻿using Akka.Actor;
 using AS.Admin.ChatClient.Game;
 using AS.Admin.ChatClient.ViewModels;
-using AS.Messages.Game;
+using AS.Common;
 using AS.Messages.Entities;
-using UnityEngine;
+using AS.Client.Messages.Game;
 
 namespace AS.Admin.ChatClient.Lobby
 {
@@ -27,7 +26,7 @@ namespace AS.Admin.ChatClient.Lobby
 
         private void HandleOnSpawnTestEntity()
         {
-            _myUserConnection.Tell(new SpawnEntity(1, "TestEntity1", Vector3.one));
+            _myUserConnection.Tell(new SpawnEntity(1, "TestEntity1", Vector3.one, 1));
             //_myUserConnection.Tell(new SetPosition(Vector3.one, 1));
         }
 

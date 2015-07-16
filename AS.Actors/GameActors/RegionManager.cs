@@ -17,7 +17,7 @@ namespace AS.Actors
             _entitiesPerRegion = entitiesPerRegion;
 
             System.Diagnostics.Debug.WriteLine($"RegionManager: {Self.Path.ToString()}");
-            Props rootRegionProps = Props.Create<Region>(new object[] { new UnityEngine.Bounds(Vector3.zero, Vector3.one * _size), _entitiesPerRegion });
+            Props rootRegionProps = Props.Create<Region>(new object[] { new Common.Bounds(Common.Vector3.zero, Common.Vector3.one * _size), _entitiesPerRegion });
             _rootRegion = Context.ActorOf(rootRegionProps, "RootRegion");
             System.Diagnostics.Debug.WriteLine($"RootRegion: {_rootRegion.Path.ToSerializationFormat()}");
 

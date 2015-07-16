@@ -75,6 +75,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AS.Common\AS.Common.csproj">
       <Project>{e41ba798-4ada-4d85-9c3e-2221643bfbb6}</Project>
       <Name>AS.Common</Name>

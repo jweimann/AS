@@ -23,6 +23,7 @@ namespace AS.Client.Helios
         public bool TempConnected { get; set; }
 
         public Action<object> MessageReceived { get; set; }
+        public Action<string> Disconnected { get; set; }
 
         public void SendMessage(object message)
         {
@@ -39,7 +40,8 @@ namespace AS.Client.Helios
             return new NetworkData()
             {
                 Buffer = bytes,
-                Length = bytes.Length
+                Length = bytes.Length,
+                RemoteHost = this.RemoteHost
             };
         }
 
@@ -50,15 +52,38 @@ namespace AS.Client.Helios
 
         public void Initialize()
         {
+            Thread.Sleep(1000);
             while (TryConnect() == false)
                 Thread.Sleep(100);
         }
 
-        public bool TryConnect()
+        public bool TryUdpConnect()
         {
             Connection =
                   new ClientBootstrap()
-                      .SetTransport(TransportType.Tcp)
+                      .SetTransport(TransportType.Udp)
+                      .RemoteAddress(Node.Loopback())
+                      .OnConnect(ConnectionEstablishedCallback)
+                      .OnReceive(ReceivedDataCallback)
+                      .OnDisconnect(ConnectionTerminatedCallback)
+                      .Build().NewConnection(NodeBuilder.BuildNode().Host(IPAddress.Any).WithPort(10002), RemoteHost);
+            Connection.OnError += ConnectionOnOnError;
+            Connection.Open();
+
+            RemoteHost = NodeBuilder.BuildNode().Host(IPAddress.Loopback).WithPort(DEFAULT_PORT).WithTransportType(TransportType.Udp);
+
+            SendMessage("Testing");
+
+            return true;
+        }
+
+        public bool TryConnect()
+        {
+            return TryUdpConnect();
+
+            Connection =
+                  new ClientBootstrap()
+                      .SetTransport(TransportType.Udp)
                       .RemoteAddress(Node.Loopback())
                       .OnConnect(ConnectionEstablishedCallback)
                       .OnReceive(ReceivedDataCallback)
@@ -112,13 +137,14 @@ namespace AS.Client.Helios
         {
             AppendStatusText(string.Format("Disconnected from {0}", closedChannel.RemoteHost));
             AppendStatusText(string.Format("Reason: {0}", reason.Message));
+            Disconnected(reason.Message);
         }
 
         private void ReceivedDataCallback(NetworkData incomingData, IConnection responseChannel)
         {
-            AppendStatusText(string.Format("Received {0} bytes from {1}", incomingData.Length,
-                incomingData.RemoteHost));
-            AppendStatusText(Encoding.UTF8.GetString(incomingData.Buffer));
+            //AppendStatusText(string.Format("Received {0} bytes from {1}", incomingData.Length,
+            //    incomingData.RemoteHost));
+            //AppendStatusText(Encoding.UTF8.GetString(incomingData.Buffer));
 
             BinarySerializer serializer = new BinarySerializer();
             var message = serializer.Deserialize<object>(incomingData.Buffer);

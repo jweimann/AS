@@ -75,11 +75,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientActorSystemStats.cs" />
     <Compile Include="ClientEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Akka.Actor;
 using AS.Messages;
+using AS.Client.Messages;
 
 namespace AS.Admin.ChatClient.Authentication
 {

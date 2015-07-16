@@ -12,6 +12,8 @@ using AS.Actors.UserActors;
 using AS.Actors.GameActors;
 using Akka.TestKit;
 using AS.Messages.Game;
+using AS.Client.Messages;
+using AS.Client.Messages.Game;
 
 namespace AS.Actors.Tests
 {

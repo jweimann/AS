@@ -43,13 +43,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientActor.cs" />
+    <Compile Include="Converters\Vector3Converter.cs" />
+    <Compile Include="Entities\UnityEntityActor.cs" />
+    <Compile Include="IClientActor.cs" />
     <Compile Include="Unity3DClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnityClientActor.cs" />
+    <Compile Include="UnityClientMonoActor.cs" />
     <Compile Include="UnityClientActorFactory.cs" />
     <Compile Include="UnityClientActorSystem.cs" />
+    <Compile Include="UnityClientUserActor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AS.Client.Core\AS.Client.Core.csproj">
       <Project>{1162083b-336b-4699-944f-14c63d4c04a3}</Project>
       <Name>AS.Client.Core</Name>

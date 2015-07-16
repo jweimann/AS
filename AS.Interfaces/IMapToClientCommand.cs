@@ -2,6 +2,6 @@
 {
     public interface IMapToClientCommand
     {
-        object GetClientCommand();
+        object GetClientCommand(int entityId);
     }
 }
