@@ -9,6 +9,11 @@ namespace AS.Client.Unity3D
         private Queue<object> _mailbox;
         public string Path { get; private set; }
 
+        public UnityClientMonoActor()
+        {
+            Path = null;
+        }
+
         public UnityClientMonoActor(string path)
         {
             Path = path;

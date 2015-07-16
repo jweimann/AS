@@ -57,6 +57,10 @@
       <Project>{90c4c500-757f-4fd4-a28d-68685db65621}</Project>
       <Name>AS.Serialization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\AS.Client.Messages\AS.Client.Messages\AS.Client.Messages.csproj">
+      <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
+      <Name>AS.Client.Messages</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

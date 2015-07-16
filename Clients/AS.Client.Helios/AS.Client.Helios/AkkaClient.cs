@@ -1,4 +1,6 @@
-﻿using AS.Serialization;
+﻿using AS.Client.Messages.ClientRequests;
+using AS.Client.Messages.Lobby;
+using AS.Serialization;
 using Helios.Exceptions;
 using Helios.Net;
 using Helios.Net.Bootstrap;
@@ -14,6 +16,7 @@ namespace AS.Client.Helios
     public class AkkaClient : IDisposable
     {
         private const int DEFAULT_PORT = 9991;
+        private const TransportType TRANSPORT_TYPE = TransportType.Udp;
 
         private static int Port;
 
@@ -72,18 +75,19 @@ namespace AS.Client.Helios
 
             RemoteHost = NodeBuilder.BuildNode().Host(IPAddress.Loopback).WithPort(DEFAULT_PORT).WithTransportType(TransportType.Udp);
 
-            SendMessage("Testing");
+            SendMessage(new ClientConnectRequest("jasons", "jasonspass"));
 
             return true;
         }
 
         public bool TryConnect()
         {
-            return TryUdpConnect();
+            if (TRANSPORT_TYPE == TransportType.Udp)
+                return TryUdpConnect();
 
             Connection =
                   new ClientBootstrap()
-                      .SetTransport(TransportType.Udp)
+                      .SetTransport(TransportType.Tcp)
                       .RemoteAddress(Node.Loopback())
                       .OnConnect(ConnectionEstablishedCallback)
                       .OnReceive(ReceivedDataCallback)
@@ -162,6 +166,8 @@ namespace AS.Client.Helios
             AppendStatusText(string.Format("Connected to {0}", remoteAddress));
             responseChannel.BeginReceive();
             TempConnected = true;
+
+            SendMessage(new ClientConnectRequest("jason", "jasonspass"));
         }
 
         public void Dispose()

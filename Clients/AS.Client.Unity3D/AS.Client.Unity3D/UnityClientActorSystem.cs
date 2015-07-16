@@ -31,6 +31,7 @@ namespace AS.Client.Unity3D
             _client = new Unity3DClient();
             _client.MessageReceived += HandleMessageReceived;
             _client.Disconnected += HandleDisconnected;
+            _client.Initialize();
         }
 
         private void HandleDisconnected(string reason)

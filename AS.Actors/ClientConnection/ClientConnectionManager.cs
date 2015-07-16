@@ -20,6 +20,7 @@ namespace AS.Actors.ClientConnection
     public class ClientConnectionManager : ReceiveActor
     {
         private ActorSelection _users;
+        private const TransportType TRANSPORT_TYPE = TransportType.Udp;
 
         // This class is not implemented yet, just copied from TimeServiceServer
         public ClientConnectionManager()
@@ -36,7 +37,7 @@ namespace AS.Actors.ClientConnection
                 new ServerBootstrap()
                     .WorkerThreads(2)
                     .Executor(executor)
-                    .SetTransport(TransportType.Udp)
+                    .SetTransport(TRANSPORT_TYPE)
                     .Build();
             var server = bootstrapper.NewReactor(NodeBuilder.BuildNode().Host(host).WithPort(port));
             server.OnConnection += (address, connection) =>
@@ -68,7 +69,7 @@ namespace AS.Actors.ClientConnection
             {
                 HandleClientConnectionRequest((ClientConnectRequest)request, channel, data.RemoteHost);
             }
-            channel.Send(data);
+            //channel.Send(data);
         }
 
         private void HandleClientConnectionRequest(ClientConnectRequest request, IConnection channel, INode remoteHost)

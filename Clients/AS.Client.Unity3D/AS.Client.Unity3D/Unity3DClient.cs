@@ -8,10 +8,10 @@ namespace AS.Client.Unity3D
     {
         public Unity3DClient()
         {
-            Initialize();
+            
 
-            while (!TempConnected)
-                System.Threading.Thread.Sleep(20);
+            //while (!TempConnected)
+            //    System.Threading.Thread.Sleep(20);
 
             //SendMessage(new ClientConnectRequest("jweimann", "nopass")); // Authenticate message is used instead..
 

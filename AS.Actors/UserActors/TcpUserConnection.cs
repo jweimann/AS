@@ -31,7 +31,7 @@ namespace AS.Actors.UserActors
             _actorIdToRefMap = new Dictionary<int, ActorPath>();
             _user = Context.Parent;
             _connection.BeginReceive(ReceiveBytes);
-            _connection.Send(NetworkData.Empty);
+            //_connection.Send(NetworkData.Empty);
             _self = Self;
             //_connection.Receive += _connection_Receive;
             Debug.WriteLine("Connection: " + _connection.ToString());

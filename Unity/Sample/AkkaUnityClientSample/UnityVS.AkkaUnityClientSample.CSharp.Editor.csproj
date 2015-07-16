@@ -102,6 +102,12 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="FullInspector-Core">
+      <HintPath>Assets\FullInspector2\Core\FullInspector-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FullInspector-Editor">
+      <HintPath>Assets\FullInspector2\Core\Editor\FullInspector-Editor.dll</HintPath>
+    </Reference>
     <Reference Include="AS.Client.Helios">
       <HintPath>Assets\Plugins\AS.Client.Helios.dll</HintPath>
     </Reference>
@@ -132,11 +138,20 @@
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
     </Reference>
-    <Reference Include="FullInspector-Editor">
-      <HintPath>Assets\FullInspector2\Core\Editor\FullInspector-Editor.dll</HintPath>
+    <Reference Include="AS.Client.Unity3D">
+      <HintPath>Assets\Plugins\AS.Client.Unity3D.dll</HintPath>
     </Reference>
-    <Reference Include="FullInspector-Core">
-      <HintPath>Assets\FullInspector2\Core\FullInspector-Core.dll</HintPath>
+    <Reference Include="AS.Client.Core">
+      <HintPath>Assets\Plugins\AS.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AS.Client.Messages">
+      <HintPath>Assets\Plugins\AS.Client.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="AS.Common.DataStructures">
+      <HintPath>Assets\Plugins\AS.Common.DataStructures.dll</HintPath>
+    </Reference>
+    <Reference Include="AS.Serialization">
+      <HintPath>Assets\Plugins\AS.Serialization.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
