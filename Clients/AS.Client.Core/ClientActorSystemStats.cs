@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AS.Client.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace AS.Client.Core
@@ -32,7 +33,8 @@ namespace AS.Client.Core
             {
                 result += String.Format("{0} {1}/s\n", _messageCounts[key] / INTERVAL, key.ToString());
             }
-            Console.WriteLine(result);
+            Logger.LogWarning(result);
+            //Console.WriteLine(result);
             _messageCounts.Clear();
             _lastPrint = DateTime.Now;
         }

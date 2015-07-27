@@ -20,7 +20,7 @@ namespace AS.Actors.ClientConnection
     public class ClientConnectionManager : ReceiveActor
     {
         private ActorSelection _users;
-        private const TransportType TRANSPORT_TYPE = TransportType.Udp;
+        private const TransportType TRANSPORT_TYPE = TransportType.Tcp;
 
         // This class is not implemented yet, just copied from TimeServiceServer
         public ClientConnectionManager()

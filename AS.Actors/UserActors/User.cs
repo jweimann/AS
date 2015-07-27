@@ -86,12 +86,18 @@ namespace AS.Actors.UserActors
 
             ReceivePreGameMessages();
 
+            Receive<ClientAuthenticateRequest>(message => { });
+
             ReceiveAny(message =>
             {
                 if (message is IClientMessage == false)
                     ForwardToConnections(message);
                 else
+                {
                     System.Console.WriteLine($"Unhandled message while in authenticated state.  Type: {message.GetType().ToString()}");
+                    Stash.Stash();
+                    //Self.Tell(message, Sender);
+                }
             });
 
             Stash.UnstashAll();
@@ -152,6 +158,7 @@ namespace AS.Actors.UserActors
             Receive<GameStarted>(message => {
                 Become(RecieveInGameMessages);
                 ForwardToConnections(message);
+                _entityManager.Tell(new SpawnEntity(0, "PlayerShip", Vector3.zero, 1));
             });
 
             // Can't do this because we use receiveAny outside this call to foward everything else to the client...

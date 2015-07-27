@@ -5,9 +5,18 @@ namespace AS.Common
     [Serializable]
     public struct Vector3
     {
+        private static Random _random = new Random();
+
         public float x;
         public float y;
         public float z;
+
+        public Vector3(double x, double y, double z)
+        {
+            this.x = (float)x;
+            this.y = (float)y;
+            this.z = (float)z;
+        }
 
         public Vector3(float x, float y, float z)
         {
@@ -146,6 +155,16 @@ namespace AS.Common
         public bool IsNan()
         {
             return (float.IsNaN(x) || float.IsNaN(y) || float.IsNaN(z));
+        }
+
+        public static Vector3 Random(float range)
+        {
+            return new Vector3(GetRandomNumber(-range, range), GetRandomNumber(-range, range), GetRandomNumber(-range, range));
+        }
+        
+        private static float GetRandomNumber(float minimum, float maximum)
+        {
+            return (float)(_random.NextDouble() * (maximum - minimum) + minimum);
         }
     }
 }

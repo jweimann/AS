@@ -3,13 +3,15 @@
     [System.Serializable]
     public class UpdatePosition : ClientMessage
     {
-        public UpdatePosition(int entityId, Common.Vector3 location) : base(entityId, UnityClientActorType.Entity)
+        public UpdatePosition(int entityId, Common.Vector3 location, Common.Vector3 velocity) : base(entityId, UnityClientActorType.Entity, Common.EntityType.Asteroid)
         {
             Position = location;
             EntityId = entityId;
+            Velocity = velocity;
         }
 
         public int EntityId { get; private set; }
         public Common.Vector3 Position { get; private set; }
+        public Common.Vector3 Velocity { get; private set; }
     }
 }

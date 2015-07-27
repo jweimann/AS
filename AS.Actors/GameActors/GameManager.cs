@@ -10,10 +10,12 @@ namespace AS.Actors.GameActors
     public class GameManager : ReceiveActor
     {
         private List<IActorRef> _games = new List<IActorRef>();
+        System.Type _gameType;
 
-        public GameManager()
+        public GameManager(System.Type gameType)
         {
             Debug.WriteLine($"GameManager Spawned: {Self.Path.ToString()}");
+            _gameType = gameType;
             Receive<CreateGame>(msg => CreateNewGame(msg));
             Receive<GetSystemStats>(message =>
             {
@@ -24,12 +26,10 @@ namespace AS.Actors.GameActors
 
         private void CreateNewGame(CreateGame msg)
         {
-            //string gameName = "game1";
-            IActorRef game = Context.ActorOf(Props.Create<Game>(new object[] { msg }));//, gameName);
+            IActorRef game = Context.ActorOf(Props.Create<Game>(new object[] { msg, _gameType }));
             _games.Add(game);
 
             game.Tell(new JoinGame(Sender), Sender);
-            //Sender.Tell(new JoinGameSuccess(game, msg.GameName));
         }
     }
 }

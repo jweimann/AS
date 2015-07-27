@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace AS.Common
 {
@@ -63,7 +64,7 @@ namespace AS.Common
 
         public override string ToString()
         {
-            return $"{_center.x}_{_center.y}_{_center.z}";
+            return String.Format("{0}_{1}_{2}", _center.x, _center.y, _center.z);
         }
 
         public static bool GreaterOrEqual(AS.Common.Vector3 c1, AS.Common.Vector3 c2)

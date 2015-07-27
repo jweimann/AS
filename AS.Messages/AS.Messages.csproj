@@ -69,6 +69,7 @@
     <Compile Include="Entities\TellPosition.cs" />
     <Compile Include="Game\AddEntityToRegion.cs" />
     <Compile Include="Game\ForwardToPlayers.cs" />
+    <Compile Include="Game\GameInitializationComplete.cs" />
     <Compile Include="Game\GetGameState.cs" />
     <Compile Include="Game\JoinGame.cs" />
     <Compile Include="Game\JoinGameSuccess.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="SystemStats\RoomStats.cs" />
     <Compile Include="SystemStats\SubscribeToStats.cs" />
     <Compile Include="SystemStats\SystemStats.cs" />
+    <Compile Include="TickMessage.cs" />
     <Compile Include="UserCreated.cs" />
     <Compile Include="JoinLobby.cs" />
     <Compile Include="JoinRoom.cs" />

@@ -41,8 +41,8 @@
       <HintPath>..\packages\Akka.TestKit.1.0.3\lib\net45\Akka.TestKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Helios, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Helios.1.4.0\lib\net45\Helios.dll</HintPath>
+    <Reference Include="Helios, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Helios.1.4.1\lib\net45\Helios.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
@@ -82,8 +82,10 @@
     <Compile Include="GameActors\EntityManager.cs" />
     <Compile Include="GameActors\GameManager.cs" />
     <Compile Include="GameActors\GamesRoot.cs" />
+    <Compile Include="GameActors\IGame.cs" />
     <Compile Include="GameActors\Region.cs" />
     <Compile Include="GameActors\RegionManager.cs" />
+    <Compile Include="Initalization\GameInitializer.cs" />
     <Compile Include="Lobby\Lobby.cs" />
     <Compile Include="Lobby\Room.cs" />
     <Compile Include="StatsActors\StatsGatherer.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActors\TcpUserConnection.cs" />
     <Compile Include="UserActors\ActorUserConnection.cs" />
+    <Compile Include="UserActors\UserConnectionStats.cs" />
     <Compile Include="UserActors\Users.cs" />
   </ItemGroup>
   <ItemGroup>

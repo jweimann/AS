@@ -9,9 +9,12 @@ namespace AS.Actors.GameActors
     public class GamesRoot : ReceiveActor
     {
         private List<IActorRef> _gameManagers = new List<IActorRef>();
-        public GamesRoot()
+        private System.Type _gameType;
+        public GamesRoot(System.Type gameType)
         {
-            _gameManagers.Add(Context.ActorOf<GameManager>("GameManager1"));
+            _gameType = gameType;
+
+            _gameManagers.Add(Context.ActorOf(Props.Create<GameManager>(new object[] { _gameType }), "GameManager1"));
             Debug.WriteLine($"GamesRoot Spawned: {Self.Path.ToString()}");
             Receive<CreateGame>(msg => CreateNewGame(msg));
         }

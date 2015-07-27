@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication\AuthenticateResult.cs" />
+    <Compile Include="Batching\BatchedMessage.cs" />
     <Compile Include="ClientActorType.cs" />
     <Compile Include="ClientMessage.cs" />
     <Compile Include="ClientRequests\ClientAuthenticateRequest.cs" />
@@ -64,12 +65,12 @@
       <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
       <Name>AS.Common.DataStructures</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\AS.Common\AS.Common.csproj">
-      <Project>{e41ba798-4ada-4d85-9c3e-2221643bfbb6}</Project>
-      <Name>AS.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>opy $(TargetPath) C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+copy $(TargetDir)$(TargetName).pdb C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

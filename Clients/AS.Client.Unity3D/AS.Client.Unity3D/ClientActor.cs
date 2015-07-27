@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AS.Client.Core;
+using System.Collections.Generic;
 
 namespace AS.Client.Unity3D
 {

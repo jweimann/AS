@@ -9,12 +9,15 @@ namespace AS.Client.Unity3D
 {
     public class UnityClientUserActor : ClientActor
     {
+        private const int DEBUG_ENTITY_COUNT = 0;
         public UnityClientUserActor(string path) : base(path)
         {
+            SendMessageToServer(new ClientAuthenticateRequest("jason", "jasonspass"));
         }
 
         public override void Receive(object message)
         {
+            Logging.Logger.LogDebug("UnityClientUserActor Receive - Message: {0}", message.ToString());
             if (message is NotAuthenticated)
             {
                 SendMessageToServer(new ClientAuthenticateRequest("jason", "jasonspass"));
@@ -32,7 +35,7 @@ namespace AS.Client.Unity3D
             }
             if (message is GameStarted)
             {
-                SendMessageToServer(new ClientSpawnEntityRequest("test", 100000));
+                SendMessageToServer(new ClientSpawnEntityRequest("test", DEBUG_ENTITY_COUNT));
             }
             //Debug.Log("Got Message " + message.ToString());
         }

@@ -87,7 +87,7 @@ namespace AS.Actors.Tests
         {
             var rootRegion = GetRootRegion();
             rootRegion.Tell(new SubscribeUserToRegion(this.TestActor));
-            rootRegion.Tell(new UpdatePosition(1, Common.Vector3.one));
+            rootRegion.Tell(new UpdatePosition(1, Common.Vector3.one, Common.Vector3.one));
             var response = ExpectMsg<UpdatePosition>();
             Assert.Equal(1, response.EntityId);
             Assert.Equal(Common.Vector3.one, response.Position);

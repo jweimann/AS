@@ -1,4 +1,5 @@
 ﻿using System;
+using AS.Common;
 
 namespace AS.Client.Messages
 {
@@ -12,6 +13,14 @@ namespace AS.Client.Messages
             ClientActorType = clientActorType;
         }
 
+        public ClientMessage(int actorId, UnityClientActorType clientActorType, EntityType entityType)
+        {
+            ActorId = actorId;
+            Path = actorId.ToString();
+            ClientActorType = clientActorType;
+            EntityType = entityType;
+        }
+
         public int ActorId { get; private set; }
         /// <summary>
         /// May be able to do this with just the ActorId and not use a path.
@@ -19,5 +28,6 @@ namespace AS.Client.Messages
         public string Path { get; private set; }
 
         public UnityClientActorType ClientActorType { get; private set; }
+        public EntityType EntityType { get; private set; }
     }
 }

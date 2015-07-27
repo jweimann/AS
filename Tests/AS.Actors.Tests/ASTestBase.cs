@@ -14,6 +14,7 @@ using Akka.TestKit;
 using AS.Messages.Game;
 using AS.Client.Messages;
 using AS.Client.Messages.Game;
+using AS.Actors.Initalization;
 
 namespace AS.Actors.Tests
 {
@@ -62,7 +63,7 @@ namespace AS.Actors.Tests
                 _lobby = Sys.ActorOf<AS.Actors.Lobby.Lobby>("lobby");
 
             if (_gamesRoot == null)
-                _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
+                _gamesRoot = Sys.ActorOf(Props.Create<GamesRoot>(new object[] { typeof(GameInitializer) }, "GamesRoot"));
         }
 
         protected IActorRef CreateUserAndJoinChat1(string name)

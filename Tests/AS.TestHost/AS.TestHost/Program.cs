@@ -6,6 +6,7 @@ using AS.Actors.GameActors;
 using AS.Actors.UserActors;
 using AS.Actors.StatsActors;
 using AS.Actors.ClientConnection;
+using AS.Actors.Initalization;
 
 namespace AS.TestHost
 {
@@ -61,7 +62,7 @@ akka {
 
             var _clientConnectionManager = Sys.ActorOf<ClientConnectionManager>("ClientConnectionManager");
 
-            _gamesRoot = Sys.ActorOf<GamesRoot>("GamesRoot");
+            _gamesRoot = Sys.ActorOf(Props.Create<GamesRoot>(new object[] { typeof(GameInitializer) }, "GamesRoot"));
 
             _statsGatherer = Sys.ActorOf<StatsGatherer>("StatsGatherer");
         }

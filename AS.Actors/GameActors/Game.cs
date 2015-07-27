@@ -8,16 +8,18 @@ using System;
 using AS.Messages;
 using AS.Messages.SystemStats;
 using AS.Client.Messages.Game;
+using AS.Actors.Initalization;
 
 namespace AS.Actors.GameActors
 {
-    public class Game : ReceiveActor, IWithUnboundedStash
+    public class Game : ReceiveActor, IWithUnboundedStash, IGame
     {
         private IActorRef _entityManager;
         private IActorRef _users;
         private Props _regionsProps;
         private IActorRef _regions;
         private string _name;
+        private Type _gameType;
 
         public List<IActorRef> Players { get; private set; } = new List<IActorRef>();
         public int MinimumPlayersToStart { get; private set; } = 1;
@@ -35,26 +37,40 @@ namespace AS.Actors.GameActors
         public Game()
         {
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 300000);
+            _regionsProps = Props.Create<RegionManager>(10000.0f, 300000);
             Become(Initializing);
         }
 
-        public Game(CreateGame createGameMessage)
+        private void Initializing()
         {
+            Console.WriteLine("Initializing");
+            Receive<GameInitializationComplete>(_ => Become(Initialized));
+            Props props = Props.Create(_gameType, new object[] { Self });
+            Context.ActorOf(props, "Initializer");
+
+            ReceiveAny(message =>
+               Stash.Stash()
+           );
+        }
+
+        public Game(CreateGame createGameMessage, Type gameType)
+        {
+            _gameType = gameType;
             _name = createGameMessage.GameName;
             Debug.WriteLine($"Game Spawned at path {Self.Path.ToString()}");
-            _regionsProps = Props.Create<RegionManager>(100.0f, 300000);
+            _regionsProps = Props.Create<RegionManager>(10000.0f, 300000);
             Become(Initializing);
         }
 
         public Game(Props regionsProps)
         {
             _regionsProps = regionsProps;
-            Become(Initializing);
+            Become(Initialized);
         }
 
-        private void Initializing()
+        private void Initialized()
         {
+            Console.WriteLine("Initialized");
             _regions = Context.ActorOf(_regionsProps, "RegionManager");
             Debug.WriteLine($"Regions Path: {_regions.Path.ToString()}");
 
@@ -83,6 +99,8 @@ namespace AS.Actors.GameActors
             ReceiveAny(message =>
                 Stash.Stash()
             );
+
+            Stash.UnstashAll();
         }
 
         private void Starting()

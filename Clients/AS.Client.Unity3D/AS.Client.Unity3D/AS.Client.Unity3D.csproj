@@ -11,7 +11,7 @@
     <AssemblyName>AS.Client.Unity3D</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,11 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
@@ -46,7 +41,6 @@
     <Compile Include="ClientActor.cs" />
     <Compile Include="Converters\Vector3Converter.cs" />
     <Compile Include="Entities\UnityEntityActor.cs" />
-    <Compile Include="IClientActor.cs" />
     <Compile Include="Unity3DClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityClientMonoActor.cs" />
@@ -67,6 +61,10 @@
       <Project>{b4c7729a-6daa-42e4-b587-32294aa1bcdb}</Project>
       <Name>AS.Client.Helios</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\AS.Client.Logging\AS.Client.Logging\AS.Client.Logging.csproj">
+      <Project>{b898a659-17ac-4707-a7c3-ff021853d4bd}</Project>
+      <Name>AS.Client.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AS.Client.Messages\AS.Client.Messages\AS.Client.Messages.csproj">
       <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
       <Name>AS.Client.Messages</Name>
@@ -74,7 +72,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)*.dll C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+copy $(TargetDir)$(TargetName).pdb C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+copy $(TargetPath) C:\temp\testproject\dlltest\Assets\Plugins</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

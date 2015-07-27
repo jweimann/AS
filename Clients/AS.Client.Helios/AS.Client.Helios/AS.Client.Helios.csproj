@@ -57,12 +57,21 @@
       <Project>{90c4c500-757f-4fd4-a28d-68685db65621}</Project>
       <Name>AS.Serialization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\AS.Client.Logging\AS.Client.Logging\AS.Client.Logging.csproj">
+      <Project>{b898a659-17ac-4707-a7c3-ff021853d4bd}</Project>
+      <Name>AS.Client.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AS.Client.Messages\AS.Client.Messages\AS.Client.Messages.csproj">
       <Project>{586d5399-3ee0-473c-84fe-c58f22d52a20}</Project>
       <Name>AS.Client.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)*.dll C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+copy $(TargetDir)$(TargetName).pdb C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+copy $(TargetDir)*.dll C:\temp\testproject\dlltest\Assets\Plugins</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

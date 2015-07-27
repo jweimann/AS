@@ -3,7 +3,7 @@
     [System.Serializable]
     public class CreateGame
     {
-        public string GameName { get; set; }
+        public string GameName { get; private set; }
         public CreateGame(string gameName)
         {
             GameName = gameName;

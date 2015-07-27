@@ -1,4 +1,7 @@
-﻿using AS.Client.Messages.Lobby;
+﻿using AS.Client.Core;
+using AS.Client.Logging;
+using AS.Client.Messages;
+using AS.Client.Messages.Lobby;
 using AS.Client.Unity3D;
 using System;
 
@@ -8,9 +11,26 @@ namespace AS.Client.Helios.TestHost
     {
         static void Main(string[] args)
         {
-            UnityClientActorSystem system = new UnityClientActorSystem();
-            while (true)
+            Logger.SetLogger(LogLevel.Debug, (text) => { Console.WriteLine(text); });
+            Logger.SetLogger(LogLevel.Warning, (text) => { Console.WriteLine(text); });
+            Logger.SetLogger(LogLevel.Error, (text) => { Console.WriteLine(text); });
+            UnityClientActorSystem system = new UnityClientActorSystem(new ConsoleClientActorEntityFactory() );
+            //system.SendMessage(new ClientConnectRequest("jweimann", "nopass"));
+
+            for (int i = 0; i < 100; i++)
+            {
+                system.Tick();
                 System.Threading.Thread.Sleep(20);
+
+            }
+
+            system.SendMessage(new ClientSpawnEntityRequest("test", 100));
+
+            while (true)
+            {
+                system.Tick();
+                System.Threading.Thread.Sleep(20);
+            }
 
             AkkaClient client = new AkkaClient();
             client.MessageReceived += HandleMessageRecieved;

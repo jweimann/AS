@@ -58,9 +58,11 @@ namespace AS.Actors
 
         private void AddEntity(AddEntityToRegion message)
         {
+            Console.WriteLine($"Entity Requesting to Join Region ID: {message.EntityId}");
             if (EntityPositionIsOutOfBounds(message))
             {
                 System.Diagnostics.Debug.WriteLine($"Unable to spawn entity at position {message.Position.ToString()} which is out of bounds {_bounds.ToString()}");
+                Console.WriteLine($"Unable to spawn entity at position {message.Position.ToString()} which is out of bounds {_bounds.ToString()}");
                 Context.Parent.Tell(message);
                 return;
             }
@@ -77,12 +79,15 @@ namespace AS.Actors
                 throw new Exception($"Entity ID already exists in database.  ID: {message.EntityId}");
             _entities.Add(message.EntityId, message.EntityActor);
 
-            
+
 
             if (_entities.Count > _maxEntities)
                 SplitRegion();
             else
+            {
+                Console.WriteLine($"Added entity {message.EntityId}");
                 message.EntityActor.Tell(new JoinRegionSuccess(Self));
+            }
 
             System.Diagnostics.Debug.WriteLine($"AddEntity SUCCESS.  Total Entities: {_entities.Count}");
 
