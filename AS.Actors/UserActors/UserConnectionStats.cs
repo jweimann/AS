@@ -17,13 +17,16 @@ namespace AS.Actors.UserActors
 
         public static void LogMessage(object message)
         {
-            if (_messageCounts.ContainsKey(message.GetType()) == false)
-                _messageCounts.Add(message.GetType(), 0);
+            lock(_messageCounts)
+            {
+                if (_messageCounts.ContainsKey(message.GetType()) == false)
+                    _messageCounts.Add(message.GetType(), 0);
 
-            _messageCounts[message.GetType()]++;
+                _messageCounts[message.GetType()]++;
 
-            if (ShouldPrintStats())
-                PrintStats();
+                if (ShouldPrintStats())
+                    PrintStats();
+            }
         }
 
         private static bool ShouldPrintStats()

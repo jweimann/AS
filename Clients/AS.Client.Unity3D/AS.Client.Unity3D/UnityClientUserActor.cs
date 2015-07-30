@@ -3,6 +3,7 @@ using AS.Client.Messages.ClientRequests;
 using AS.Client.Messages.Errors;
 using AS.Client.Messages.Game;
 using AS.Client.Messages.User;
+using AS.Common;
 using UnityEngine;
 
 namespace AS.Client.Unity3D
@@ -35,7 +36,7 @@ namespace AS.Client.Unity3D
             }
             if (message is GameStarted)
             {
-                SendMessageToServer(new ClientSpawnEntityRequest("test", DEBUG_ENTITY_COUNT));
+                SendMessageToServer(new ClientSpawnEntityRequest(EntityType.Asteroid, DEBUG_ENTITY_COUNT));
             }
             //Debug.Log("Got Message " + message.ToString());
         }

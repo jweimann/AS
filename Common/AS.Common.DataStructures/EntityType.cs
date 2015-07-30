@@ -6,8 +6,10 @@
     /// 
     /// Might just use UnityClientActorType instead of this too... need to decide..
     /// </summary>
+    [System.Serializable]
     public enum EntityType
     {
+        Unknown,
         Asteroid,
         Ship,
     }

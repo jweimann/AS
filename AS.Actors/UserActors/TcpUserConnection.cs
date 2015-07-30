@@ -9,6 +9,7 @@ using System.Diagnostics;
 using AS.Client.Messages;
 using AS.Messages;
 using Helios.Topology;
+using AS.Client.Messages.Entities;
 
 namespace AS.Actors.UserActors
 {
@@ -77,10 +78,25 @@ namespace AS.Actors.UserActors
 
             //Console.WriteLine($"UserConnection Received message of type: " + message.GetType().ToString());
             var senderSelection = Context.ActorSelection(Sender.Path);
-            if (Sender.Path != _user.Path)
-                ForwardMessageToUser(message);
-            else
+            // Need to change this, don't want every message forced to come from the user...
+            // it does this now so it can receive messages from other actors (remote actors/etc), need a destination flag or something on messages?
+            
+            if (ShouldSendToClient(message))
                 ForwardMessageToClient(message);
+            else
+                ForwardMessageToUser(message);
+        }
+
+        private bool ShouldSendToClient(object message)
+        {
+            if (Sender.Path == _user.Path)
+                return true;
+
+            ClientMessage clientMessage = message as ClientMessage;
+            if (clientMessage != null && clientMessage.Destination == Destination.Client)
+                return true;
+
+            return false;
         }
 
         private void ForwardMessageToClient(object message)
@@ -114,7 +130,10 @@ namespace AS.Actors.UserActors
         private void SerializeAndSendMessageToRemoteConnection(object message)
         {
             if (_useBatching)
-                _outboundMessageQueue.Enqueue(message);
+            {
+                //if (message is UpdatePosition == false)
+                    _outboundMessageQueue.Enqueue(message);
+            }
             else
                 SendMessageToClient(message);
         }
@@ -161,7 +180,8 @@ namespace AS.Actors.UserActors
         {
             BinarySerializer serializer = new BinarySerializer();
             var bytes = serializer.Serialize(message);
-            _connection.Send(new NetworkData() { Buffer = bytes, Length = bytes.Length, RemoteHost = _remoteHost });
+            //_connection.Send(new NetworkData() { Buffer = bytes, Length = bytes.Length, RemoteHost = _remoteHost });
+            _connection.Send(bytes, 0, bytes.Length, _remoteHost);
 
             // Testing them after serialize too so I can tell if that part broke..
             var testObject = serializer.Deserialize<BatchedMessage>(bytes);
@@ -169,6 +189,8 @@ namespace AS.Actors.UserActors
             {
                 if (child == null)
                     throw new NullReferenceException();
+                if (child.GetType() == typeof(EntityDetails))
+                    Console.WriteLine($"Sending EntityDetails for Type: {((EntityDetails)child).EntityType}");
             }
         }
 

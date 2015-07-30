@@ -60,10 +60,10 @@
     <Compile Include="Chat.cs" />
     <Compile Include="ConnectionEstablished.cs" />
     <Compile Include="CreateTrackedEntity.cs" />
-    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityMessage.cs" />
     <Compile Include="Entities\GetPosition.cs" />
     <Compile Include="Entities\JoinRegion.cs" />
+    <Compile Include="Entities\RequestEntityPosition.cs" />
     <Compile Include="Entities\SpawnEntity.cs" />
     <Compile Include="Entities\SetPosition.cs" />
     <Compile Include="Entities\TellPosition.cs" />

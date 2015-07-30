@@ -71,6 +71,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SG.Server.Actors", "SpaceGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SG.Server.Host", "SpaceGame\Server\SG.Server.Host\SG.Server.Host.csproj", "{4AE0AB58-F8F9-440D-A4FF-264BEFD8A091}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SG.Client.Messages", "SpaceGame\Client\SG.Client.Messages\SG.Client.Messages.csproj", "{BB220B22-9D2E-4520-9158-30F25EEA3745}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{4AE0AB58-F8F9-440D-A4FF-264BEFD8A091}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AE0AB58-F8F9-440D-A4FF-264BEFD8A091}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE0AB58-F8F9-440D-A4FF-264BEFD8A091}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB220B22-9D2E-4520-9158-30F25EEA3745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB220B22-9D2E-4520-9158-30F25EEA3745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB220B22-9D2E-4520-9158-30F25EEA3745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB220B22-9D2E-4520-9158-30F25EEA3745}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,5 +211,6 @@ Global
 		{C45E91F0-5AC0-492E-A25B-DCB0CE1AD065} = {9A9CCB10-2AA5-45E9-8F3E-C7957B0E4486}
 		{064D4901-BEDD-4FD0-B324-5CADBAA621C1} = {521147C5-34E2-42DC-8DA9-E648C856420E}
 		{4AE0AB58-F8F9-440D-A4FF-264BEFD8A091} = {521147C5-34E2-42DC-8DA9-E648C856420E}
+		{BB220B22-9D2E-4520-9158-30F25EEA3745} = {09CB08A5-AFBC-4BE5-8D8E-A7EF0F141921}
 	EndGlobalSection
 EndGlobal

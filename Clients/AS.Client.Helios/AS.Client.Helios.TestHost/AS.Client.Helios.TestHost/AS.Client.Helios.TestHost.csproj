@@ -51,6 +51,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Common\AS.Common.DataStructures\AS.Common.DataStructures.csproj">
+      <Project>{44b01b97-2a0e-49b0-bf5b-16f3bbccb9d5}</Project>
+      <Name>AS.Common.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\Common\AS.Serialization\AS.Serialization\AS.Serialization.csproj">
       <Project>{90c4c500-757f-4fd4-a28d-68685db65621}</Project>
       <Name>AS.Serialization</Name>

@@ -26,7 +26,7 @@ namespace AS.Admin.ChatClient.Lobby
 
         private void HandleOnSpawnTestEntity()
         {
-            _myUserConnection.Tell(new SpawnEntity(1, "TestEntity1", Vector3.one, 1));
+            _myUserConnection.Tell(new SpawnEntity(1, EntityType.Asteroid, Vector3.one, 1));
             //_myUserConnection.Tell(new SetPosition(Vector3.one, 1));
         }
 

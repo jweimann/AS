@@ -19,6 +19,7 @@ namespace AS.Actors
         private HashSet<IActorRef> _subscribedUsers = new HashSet<IActorRef>();
         private Dictionary<long, IActorRef> _entities = new Dictionary<long, IActorRef>();
         private Dictionary<long, Common.Vector3> _entityLocations = new Dictionary<long, Common.Vector3>();
+        
         private int _maxEntities;
         private Dictionary<Common.Bounds, IActorRef> _children = new Dictionary<Common.Bounds, IActorRef>();
         private bool HasChildren {  get { return _children.Count > 0; } }
@@ -46,10 +47,28 @@ namespace AS.Actors
                 _entities[message.EntityId].Tell(message);
             });
 
+            Receive<SG.Client.Messages.SetTargetObject>(message =>
+            {
+                _entities[message.ActorId].Tell(message);
+            });
+
+            Receive<RequestEntityPosition>(message =>
+            {
+                if (_entityLocations.ContainsKey(message.EntityId) == false)
+                {
+                    Sender.Tell(new EntityNotFoundResponse(message.EntityId));
+                }
+                else
+                {
+                    var position = _entityLocations[message.EntityId];
+                    Sender.Tell(new EntityPositionResponse(message.EntityId, position));
+                }
+            });
+
             Receive<SubscribeUserToRegion>(message => _subscribedUsers.Add(message.UserActor));
             Receive<UnsubscribeUserToRegion>(message => _subscribedUsers.Remove(message.UserActor));
         }
-
+        
         private void MessagePlayers(UpdatePosition message)
         {
             foreach (var user in _subscribedUsers)

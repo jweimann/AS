@@ -133,7 +133,7 @@ namespace AS.Actors.Tests
                 _entityManager = ActorOfAsTestActorRef<EntityManager>("EntityManager");
 
             string name = "entity" + id;
-            _entityManager.Tell(new SpawnEntity(id, name, position, 1));
+            _entityManager.Tell(new SpawnEntity(id, EntityType.Asteroid, position, 1));
         }
 
         [Fact]

@@ -73,7 +73,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_addsEntity()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero, 1));
+            testGameActor.Tell(new SpawnEntity(1, EntityType.Asteroid, Vector3.zero, 1));
 
             Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject privBase = 
                 new Microsoft.VisualStudio.TestTools.UnitTesting.PrivateObject(testGameActor.UnderlyingActor, new
@@ -86,7 +86,7 @@ namespace AS.Actors.Tests
         public void entityManager_spawnEntity_populatesEntitiesByIdDictionary()
         {
             var testGameActor = ActorOfAsTestActorRef<EntityManager>("EntityManager");
-            testGameActor.Tell(new SpawnEntity(1, "JasonsEntity", Vector3.zero, 1));
+            testGameActor.Tell(new SpawnEntity(1, EntityType.Asteroid, Vector3.zero, 1));
 
             //PrivateObject privBase = new PrivateObject(testGameActor.UnderlyingActor, new PrivateType(typeof(EntityManager)));
 

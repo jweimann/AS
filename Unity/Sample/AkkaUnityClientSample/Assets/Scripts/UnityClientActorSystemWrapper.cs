@@ -3,9 +3,11 @@ using System.Collections;
 using AS.Client.Unity3D;
 using AS.Client.Logging;
 using AS.Client.Messages;
+using AS.Common;
 
 public class UnityClientActorSystemWrapper : MonoBehaviour
 {
+    private static UnityClientActorSystem _systemStatic; // going to remove this, need to decide how i wanna do this.
 
     private UnityClientActorSystem _system;
     private float _timer;
@@ -18,11 +20,12 @@ public class UnityClientActorSystemWrapper : MonoBehaviour
     {
         Debug.Log("Starting UnityClientActorSystemWrapper");
         //Logger.SetLogger(LogLevel.Debug, (text) => { Debug.Log(text); });
-        Logger.SetLogger(LogLevel.Warning, (text) => { Debug.LogWarning(text); });
+        //Logger.SetLogger(LogLevel.Warning, (text) => { Debug.LogWarning(text); });
         Logger.SetLogger(LogLevel.Error, (text) => { Debug.LogError(text); });
 
         var factory = new UnityClientActorFactory();
         _system = new UnityClientActorSystem(factory);
+        _systemStatic = _system;
 
         factory.SetClientMonoActors(_clientMonoActors);
         Debug.Log("Finished UnityClientActorSystemWrapper");
@@ -45,11 +48,16 @@ public class UnityClientActorSystemWrapper : MonoBehaviour
 
     public void Spawn100()
     {
-        _system.SendMessage(new ClientSpawnEntityRequest("test", 100));
+        _system.SendMessage(new ClientSpawnEntityRequest(EntityType.Asteroid, 100));
     }
 
     public void RegisterDebugLogger()
     {
         Logger.SetLogger(LogLevel.Debug, (text) => { Debug.Log(text); });
+    }
+
+    public static void SendMessage(object message)
+    {
+        _systemStatic.SendMessage(message);
     }
 }

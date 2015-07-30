@@ -47,7 +47,9 @@
     <Compile Include="ClientActorType.cs" />
     <Compile Include="ClientMessage.cs" />
     <Compile Include="ClientRequests\ClientAuthenticateRequest.cs" />
+    <Compile Include="ClientRequests\ClientRequestEntityDetails.cs" />
     <Compile Include="ClientRequests\ClientSpawnEntityRequest.cs" />
+    <Compile Include="Entities\EntityDetails.cs" />
     <Compile Include="Entities\UpdatePosition.cs" />
     <Compile Include="Errors\NotAuthenticated.cs" />
     <Compile Include="Game\GameStarted.cs" />
@@ -68,7 +70,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>opy $(TargetPath) C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
+    <PostBuildEvent>copy $(TargetPath) C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins
 copy $(TargetDir)$(TargetName).pdb C:\Git\AkkaServer\Unity\Sample\AkkaUnityClientSample\Assets\Plugins</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

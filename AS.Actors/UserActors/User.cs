@@ -10,6 +10,9 @@ using AS.Client.Messages.ClientRequests;
 using AS.Client.Messages.Game;
 using AS.Client.Messages.Entities;
 using AS.Common;
+using System.Collections.Generic;
+using System;
+using SG.Client.Messages;
 
 namespace AS.Actors.UserActors
 {
@@ -22,6 +25,7 @@ namespace AS.Actors.UserActors
         private ActorSelection _gamesRoot;
         private string _username;
         private IActorRef _game;
+        private Dictionary<long, Tuple<Common.Vector3, DateTime>> _entityVelocitys = new Dictionary<long, Tuple<Common.Vector3, DateTime>>();
 
         public IStash Stash { get; set; }
 
@@ -126,8 +130,36 @@ namespace AS.Actors.UserActors
 
             Receive<UpdatePosition>(message =>
             {
-                ForwardToConnections(message);
+                if (ChangedVelocity(message))
+                    ForwardToConnections(message);
             });
+
+            Receive<ClientRequestEntityDetails>(message =>
+            {
+                _entityManager.Tell(message, Sender);
+            });
+
+            Receive<SetTargetObject>(message =>
+            {
+                _entityManager.Tell(message);
+            });
+        }
+
+        private bool ChangedVelocity(UpdatePosition message)
+        {
+            if (_entityVelocitys.ContainsKey(message.EntityId) == false)
+            {
+                _entityVelocitys.Add(message.EntityId, new Tuple<Vector3, DateTime>(message.Velocity, DateTime.Now));
+                return true;
+            }
+
+            if (_entityVelocitys[message.EntityId].Item1 != message.Velocity ||
+               (DateTime.Now - _entityVelocitys[message.EntityId].Item2).TotalSeconds >= 10)
+            {
+                _entityVelocitys[message.EntityId] = new Tuple<Vector3, DateTime>(message.Velocity, DateTime.Now);
+                return true;
+            }
+            return false;
         }
 
         private void ReceivePreGameMessages()
@@ -158,7 +190,7 @@ namespace AS.Actors.UserActors
             Receive<GameStarted>(message => {
                 Become(RecieveInGameMessages);
                 ForwardToConnections(message);
-                _entityManager.Tell(new SpawnEntity(0, "PlayerShip", Vector3.zero, 1));
+                _entityManager.Tell(new SpawnEntity(0, EntityType.Ship, Vector3.zero, 1));
             });
 
             // Can't do this because we use receiveAny outside this call to foward everything else to the client...

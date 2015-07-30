@@ -6,6 +6,7 @@ using UnityEngine;
 using AS.Client.Logging;
 using AS.Client.Core;
 using AS.Client.Unity3D.Entities;
+using AS.Client.Messages.Entities;
 
 namespace AS.Client.Unity3D
 {
@@ -78,8 +79,18 @@ namespace AS.Client.Unity3D
                 return Create(message.ClientActorType);
             else
             {
-                var monoActor = CreateGameObject(message.EntityType);
-                monoActor.gameObject.name = String.Format("Entity_{0}", message.ActorId);
+                EntityDetails entityDetails = message as EntityDetails;
+                if (entityDetails == null)
+                {
+                    Logger.LogDebug("Attempted to spawn entity with wrong message.  Must be EntityDetails.  MessageType: {0}",
+                        message.GetType().ToString());
+                    return null;
+                }
+
+                var monoActor = CreateGameObject(entityDetails.EntityType);
+                monoActor.SetEntityId(message.ActorId);
+                    
+                monoActor.gameObject.name = String.Format("Entity_{0}_{1}", entityDetails.EntityType.ToString(), message.ActorId);
                 return monoActor;
             }
         }

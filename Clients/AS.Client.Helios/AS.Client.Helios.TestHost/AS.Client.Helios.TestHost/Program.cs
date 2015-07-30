@@ -3,6 +3,7 @@ using AS.Client.Logging;
 using AS.Client.Messages;
 using AS.Client.Messages.Lobby;
 using AS.Client.Unity3D;
+using AS.Common;
 using System;
 
 namespace AS.Client.Helios.TestHost
@@ -24,7 +25,7 @@ namespace AS.Client.Helios.TestHost
 
             }
 
-            system.SendMessage(new ClientSpawnEntityRequest("test", 100));
+            system.SendMessage(new ClientSpawnEntityRequest(EntityType.Asteroid, 100));
 
             while (true)
             {

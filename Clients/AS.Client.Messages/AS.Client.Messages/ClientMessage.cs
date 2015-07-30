@@ -3,6 +3,13 @@ using AS.Common;
 
 namespace AS.Client.Messages
 {
+    public enum Destination
+    {
+        Unknown,
+        Server,
+        Client,
+    }
+
     [Serializable]
     public class ClientMessage
     {
@@ -13,13 +20,7 @@ namespace AS.Client.Messages
             ClientActorType = clientActorType;
         }
 
-        public ClientMessage(int actorId, UnityClientActorType clientActorType, EntityType entityType)
-        {
-            ActorId = actorId;
-            Path = actorId.ToString();
-            ClientActorType = clientActorType;
-            EntityType = entityType;
-        }
+        public virtual Destination Destination { get; }
 
         public int ActorId { get; private set; }
         /// <summary>
@@ -28,6 +29,5 @@ namespace AS.Client.Messages
         public string Path { get; private set; }
 
         public UnityClientActorType ClientActorType { get; private set; }
-        public EntityType EntityType { get; private set; }
     }
 }

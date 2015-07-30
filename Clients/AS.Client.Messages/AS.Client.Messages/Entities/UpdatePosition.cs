@@ -3,7 +3,7 @@
     [System.Serializable]
     public class UpdatePosition : ClientMessage
     {
-        public UpdatePosition(int entityId, Common.Vector3 location, Common.Vector3 velocity) : base(entityId, UnityClientActorType.Entity, Common.EntityType.Asteroid)
+        public UpdatePosition(int entityId, Common.Vector3 location, Common.Vector3 velocity) : base(entityId, UnityClientActorType.Entity)
         {
             Position = location;
             EntityId = entityId;

@@ -10,6 +10,7 @@ using Xunit;
 using AS.Messages.Region;
 using System.Diagnostics;
 using System.Threading;
+using AS.Common;
 
 namespace AS.Actors.Tests
 {
@@ -43,7 +44,7 @@ namespace AS.Actors.Tests
         {
             IActorRef game;
             var user = CreateUserAndGame(out game);
-            user.Tell(new SpawnEntity(1, "TestEntity", AS.Common.Vector3.zero, 1));
+            user.Tell(new SpawnEntity(1, EntityType.Asteroid, AS.Common.Vector3.zero, 1));
 
             ActorSelection rootRegionSelection = new Akka.Actor.ActorSelection(game, "RegionManager/RootRegion");
             IActorRef rootRegion = rootRegionSelection.ResolveOne(TimeSpan.FromSeconds(1)).Result;

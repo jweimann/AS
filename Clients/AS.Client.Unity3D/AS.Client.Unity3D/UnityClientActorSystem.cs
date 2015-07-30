@@ -1,7 +1,8 @@
 ﻿using AS.Client.Core;
 using AS.Client.Logging;
 using AS.Client.Messages;
-using AS.Client.Unity3D.Entities;
+using AS.Client.Messages.ClientRequests;
+using AS.Client.Messages.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace AS.Client.Unity3D
         private Dictionary<long, IClientActor> _actors;
         private Unity3DClient _client;
         private int _messageSinceLastRead;
+        private Dictionary<long, List<ClientMessage>> _stash = new Dictionary<long, List<ClientMessage>>();
+        private Queue<ClientMessage> _mailbox = new Queue<ClientMessage>();
 
         private static UnityClientActorSystem _instance;
-        public static UnityClientActorSystem Instance { get { return _instance; } }
 
+        public static UnityClientActorSystem Instance { get { return _instance; } }
         public IClientActorFactory ClientActorEntityFactory { get; set; }
 
         public string GetStats()
@@ -42,7 +45,7 @@ namespace AS.Client.Unity3D
             // Pretty sure I want to be able to register non-visible ones in code, but maybe I want to use a monobehavior base (which it's set to now) and force it to be on a gameobject.
             // it could be a new gameobject instead of a prefab, need to figure that part out.
             // definitely need prefabs too though for things like units/characters/etc..s
-          
+
 
             _actors = new Dictionary<long, IClientActor>();
             _client = new Unity3DClient();
@@ -63,8 +66,6 @@ namespace AS.Client.Unity3D
             Logger.LogDebug(String.Format("Sent Message of Type: {0}", message));
         }
 
-        private Queue<ClientMessage> _mailbox = new Queue<ClientMessage>();
-
         private void HandleMessageReceived(object obj)
         {
             //lock(this) // Temporary lock, needs a mailbox style system.
@@ -83,7 +84,7 @@ namespace AS.Client.Unity3D
 
         public void Tick()
         {
-            lock(this)
+            lock (this)
             {
                 var messagesToProcess = new List<ClientMessage>();
                 while (_mailbox.Count > 0)
@@ -96,7 +97,7 @@ namespace AS.Client.Unity3D
                     else
                         Logger.LogError("Received NULL Message");
                 }
-                    
+
 
                 _mailbox.Clear();
                 foreach (var message in messagesToProcess)
@@ -117,18 +118,11 @@ namespace AS.Client.Unity3D
         {
             ClientMessage clientMessage = message as ClientMessage;
 
-            //Logger.LogDebug(String.Format("Routing Message of Type: {0} to Entity: {1}", message.GetType().ToString(), actorId));
-
-            //if (clientMessage.ClientActorType == UnityClientActorType.ClientUser)
-            //{
             if (_actors.ContainsKey(actorId) == false)
-                CreateActor(clientMessage);
-            //}
-            //else
-            //{
-            //    if (_actors.ContainsKey(actorId) == false)
-            //        CreateMonoActor(clientMessage);
-            //}
+            {
+                if (CreateActor(clientMessage) == ClientActorState.RequestedFromServer)
+                    return;
+            }
 
             if (_actors.ContainsKey(actorId) == false)
                 Logger.LogWarning("Unable to find actor ID: " + actorId);
@@ -138,28 +132,47 @@ namespace AS.Client.Unity3D
 
             _actors[actorId].Tell(clientMessage);
 
-            //if (_monoActors.ContainsKey(path) == false)
-
         }
 
-        ///// <summary>
-        ///// This needs to know what type of actor to instantiate.
-        ///// Can request it from the server or always include a byte with the type.
-        ///// </summary>
-        ///// <param name="path"></param>
-        //private void CreateMonoActor(ClientMessage message)
-        //{
-        //    Logger.LogDebug("Creating MonoActor from Message: {0}", message.ToString());
-        //    UnityClientMonoActor actor = ClientActorEntityFactory.CreateGameObject(message.ClientActorType);
-        //    actor.SetEntityId(message.ActorId);
-        //    actor.gameObject.name = actor.gameObject.name + "_" + message.ActorId;
-        //    _actors.Add(message.ActorId, actor);
-        //}
-
-        private void CreateActor(ClientMessage message)
+        private ClientActorState CreateActor(ClientMessage message)
         {
-            IClientActor actor = ClientActorEntityFactory.CreateActor(message);
-            _actors.Add(message.ActorId, actor);
+            if (message.ClientActorType == UnityClientActorType.ClientUser || message.GetType() == typeof(EntityDetails))
+            {
+                IClientActor actor = ClientActorEntityFactory.CreateActor(message);
+                _actors.Add(message.ActorId, actor);
+                UnstashEntityMessages(message);
+                return ClientActorState.Created;
+            }
+            else
+            {
+                SendMessage(new ClientRequestEntityDetails(message.ActorId));
+                StashEntityMessage(message);
+                return ClientActorState.RequestedFromServer;
+            }
+        }
+
+        private void UnstashEntityMessages(ClientMessage message)
+        {
+            if (_stash.ContainsKey(message.ActorId))
+            {
+                foreach (var stashedMessage in _stash[message.ActorId])
+                {
+                    _mailbox.Enqueue(stashedMessage);
+                }
+            }
+        }
+
+        private void StashEntityMessage(ClientMessage message)
+        {
+            if (_stash.ContainsKey(message.ActorId) == false)
+                _stash.Add(message.ActorId, new List<ClientMessage>());
+
+            _stash[message.ActorId].Add(message);
+        }
+        private enum ClientActorState
+        {
+            RequestedFromServer,
+            Created
         }
     }
 }

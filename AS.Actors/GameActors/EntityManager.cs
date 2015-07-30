@@ -6,6 +6,7 @@ using AS.Messages.Entities;
 using AS.Messages;
 using AS.Messages.Game;
 using System.Diagnostics;
+using AS.Client.Messages.ClientRequests;
 
 namespace AS.Actors
 {
@@ -24,6 +25,15 @@ namespace AS.Actors
             Receive<SpawnEntity>(message => HandleSpawnEntityMessage(message));
             Receive<EntityMessage>(message => HandleEntityMessage(message));
             Receive<SetPosition>(message =>
+            {
+                _regionManager.Tell(message);
+            });
+            Receive<ClientRequestEntityDetails>(message =>
+            {
+                if (EntitiesById.ContainsKey(message.ActorId))
+                    EntitiesById[message.ActorId].Tell(message, Sender);
+            });
+            Receive<SG.Client.Messages.SetTargetObject>(message =>
             {
                 _regionManager.Tell(message);
             });
@@ -49,7 +59,7 @@ namespace AS.Actors
             int entityId = NextEntityId(); //TODO: Client generating IDs temporarily.  Change this
             //entityId = message.EntityId;
 
-            IActorRef newEntity = Context.ActorOf(Props.Create<Entity>(entityId, message.Position));
+            IActorRef newEntity = Context.ActorOf(Props.Create<Entity>(entityId, message.Position, message.EntityType));
             Entities.Add(newEntity);
             EntitiesById.Add(entityId, newEntity);
 

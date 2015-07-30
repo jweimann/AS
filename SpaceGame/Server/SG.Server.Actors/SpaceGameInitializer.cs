@@ -13,9 +13,9 @@ namespace SG.Server.Actors
 
         protected override void Initialize()
         {
-            for(int i = 0; i < 300; i++)
+            for(int i = 0; i < 100; i++)
             {
-                SendInitalizationMessage(new SpawnEntity(1, "Asteroid1", Vector3.Random(200), 1));
+                SendInitalizationMessage(new SpawnEntity(1, EntityType.Asteroid, Vector3.Random(200), 1));
             }
             
             base.Initialize();

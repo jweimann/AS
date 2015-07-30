@@ -154,3 +154,11 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+
+[Ll]ibrary/
+Unity/Sample/AkkaUnityClientSample/[Ll]ibrary/
+Unity/Sample/AkkaUnityClientSample/[Tt]emp/
+Unity/Sample/AkkaUnityClientSample/[Oo]bj/
+Unity/Sample/AkkaUnityClientSample/[Bb]uild/
+
+[Pp]ackages
